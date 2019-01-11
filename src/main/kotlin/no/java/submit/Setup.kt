@@ -37,6 +37,10 @@ object Setup {
         return Integer.parseInt(readValue("serverPort","8080"))
     }
 
+    fun serverAddress():String {
+        return readValue("serverAddress","http://localhost:8080")
+    }
+
     fun serverEncryptPassword(): String {
         return readValue("serverEncryptPassword","bullshit")
     }
@@ -45,6 +49,14 @@ object Setup {
 
     fun millisValidToken():Long {
         return readValue("millisValidToken", millisInOneDay.toString()).toLong()
+    }
+
+    fun sleepingpillConferenceId():String {
+        return readValue("sleepingpillConferenceId","32b97b40-7d22-4687-b6e0-c5ec399b2be2")
+    }
+
+    fun sleepingPillLocation(): String {
+        return readValue("sleepingPillLocation","http://localhost:8082")
     }
 
 }

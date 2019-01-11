@@ -1,8 +1,10 @@
 package no.java.submit
 
+import no.java.submit.commands.CreateTalkCommand
 import no.java.submit.commands.CreateTokenCommand
 import no.java.submit.commands.IllegalPathCommand
 import no.java.submit.commands.isValidEmail
+import org.jsonbuddy.JsonFactory
 import org.jsonbuddy.JsonObject
 import org.jsonbuddy.parse.JsonParser
 import org.jsonbuddy.pojo.PojoMapper
@@ -16,17 +18,18 @@ class ApiServlet:HttpServlet() {
         if (req == null || resp == null) {
             return
         }
-        val pathInfo:String? = req.pathInfo
-        val kotlinClass: KClass<out Command> = when(pathInfo) {
+        val callIdentification = CallIdentification(req)
+        val kotlinClass: KClass<out Command> = when(callIdentification.pathInfo) {
             "/createToken" -> CreateTokenCommand::class
+            "/createTalk" -> CreateTalkCommand::class
             else-> IllegalPathCommand::class
         }
         val payload:JsonObject = req.inputStream.use {JsonParser.parseToObject(it)}
         val command:Command = PojoMapper.map(payload,kotlinClass.java)
-        val responsobj:JsonObject
-        val callIdentification = CallIdentification(readEmail(req),pathInfo)
-        try {
-            responsobj = command.doStuff(callIdentification)
+        val responsobj:JsonObject = try {
+            command.doStuff(callIdentification).put("status","ok")
+        } catch (f:FunctionalError) {
+            JsonObject().put("status","error").put("errormessage",f.errormessage)
         } catch (e:RequestError) {
             resp.sendError(e.errorType,e.message)
             return
@@ -36,31 +39,5 @@ class ApiServlet:HttpServlet() {
 
     }
 
-    private fun readEmail(req: HttpServletRequest): String? {
-        val token:String = req.getHeader("submittoken")?:return null
-        val decrypted:String
-        try {
-            decrypted = CryptoUtils.decrypt(token)
-        } catch (e:Exception) {
-            return null
-        }
-        val ind:Int = decrypted.lastIndexOf(",")
-        if (ind == -1 || ind > decrypted.length-2 || ind < 1) {
-            return null
-        }
-        val timestamp:Long
-        try {
-            timestamp = decrypted.substring(ind+1).toLong()
-        } catch (e:Exception) {
-            return null
-        }
-        if (System.currentTimeMillis() > timestamp+Setup.millisValidToken()) {
-            return null
-        }
-        val email:String = decrypted.substring(0,ind)
-        if (!isValidEmail(email)) {
-            return null;
-        }
-        return email
-    }
+
 }

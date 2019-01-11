@@ -1,11 +1,9 @@
 package no.java.submit.commands
 
-import no.java.submit.CallIdentification
-import no.java.submit.Command
-import no.java.submit.CryptoUtils
-import no.java.submit.RequestError
+import no.java.submit.*
 import org.jsonbuddy.JsonFactory
 import org.jsonbuddy.JsonObject
+import java.net.URLEncoder
 import javax.servlet.http.HttpServletResponse
 
 fun isValidEmail(subject: String): Boolean {
@@ -27,7 +25,21 @@ class CreateTokenCommand(val email:String?):Command {
             throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Not valid email")
         }
         val token = CryptoUtils.encrypt("$email,${System.currentTimeMillis()}")
-        return JsonFactory.jsonObject().put("token",token)
+        sendMail(email,token)
+        return JsonFactory.jsonObject()
+    }
+
+
+    private fun sendMail(email:String,token:String) {
+        val body = """
+            |<html>
+            |<body>
+            |Login <a href="${Setup.serverAddress()}"/emailLogin.html?token=${URLEncoder.encode(token,"UTF-8")}">here</a>
+            |</body>
+            |</html>
+        """.trimMargin()
+        MailSenderService.sendMail(email,"Your link to javazone submit",body)
+
     }
 
 
