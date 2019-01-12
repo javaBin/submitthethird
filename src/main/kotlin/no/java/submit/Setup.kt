@@ -59,4 +59,12 @@ object Setup {
         return readValue("sleepingPillLocation","http://localhost:8082")
     }
 
+    fun sleepingpillUser(): String? {
+        return readValue("sleepingpillUser","null").let {if (it == "null") null else it}
+    }
+
+    fun sleepingpillPassword(): String {
+        return readValue("sleepingpillPassword","")
+    }
+
 }

@@ -14,14 +14,14 @@ interface SleepingPillSender {
 
 class LiveSleepingPillSender:SleepingPillSender {
     override fun get(path: String): JsonObject {
-        val urlConnection = URL(sleepingPillLocation + path).openConnection() as HttpURLConnection
+        val urlConnection = openConnection(path)
         urlConnection.setRequestProperty("content-type","application/json")
         return readResult(urlConnection)
     }
 
     private val sleepingPillLocation = Setup.sleepingPillLocation()
     override fun post(path: String, httpPostMethod: HttpPostMethod,payload: JsonObject): JsonObject {
-        val urlConnection = URL(sleepingPillLocation + path).openConnection() as HttpURLConnection
+        val urlConnection = openConnection(path)
         urlConnection.setRequestProperty("content-type","application/json")
         urlConnection.requestMethod = httpPostMethod.toString()
 
@@ -35,6 +35,17 @@ class LiveSleepingPillSender:SleepingPillSender {
 
         return readResult(urlConnection)
 
+    }
+
+    private fun openConnection(path: String):HttpURLConnection {
+        val httpURLConnection = URL(sleepingPillLocation + path).openConnection() as HttpURLConnection
+        val sleepingpillUser = Setup.sleepingpillUser()
+        if (sleepingpillUser != null) {
+            val authString = "$sleepingpillUser:${Setup.sleepingpillPassword()}"
+            val authStringEnc = Base64Util.encode(authString)
+            httpURLConnection.setRequestProperty("Authorization", "Basic $authStringEnc")
+        }
+        return httpURLConnection
     }
 
     private fun readResult(urlConnection: HttpURLConnection): JsonObject {
