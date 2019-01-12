@@ -1,9 +1,6 @@
 package no.java.submit
 
-import no.java.submit.commands.CreateTalkCommand
-import no.java.submit.commands.CreateTokenCommand
-import no.java.submit.commands.IllegalPathCommand
-import no.java.submit.commands.isValidEmail
+import no.java.submit.commands.*
 import no.java.submit.queries.allTalksForSpeaker
 import no.java.submit.queries.oneGivenTalk
 import org.jsonbuddy.JsonFactory
@@ -24,6 +21,7 @@ class ApiServlet:HttpServlet() {
         val kotlinClass: KClass<out Command> = when(callIdentification.pathInfo) {
             "/createToken" -> CreateTokenCommand::class
             "/createTalk" -> CreateTalkCommand::class
+            "/updateTalk" -> UpdateTalkCommand::class
             else-> IllegalPathCommand::class
         }
         val payload:JsonObject = req.inputStream.use {JsonParser.parseToObject(it)}
