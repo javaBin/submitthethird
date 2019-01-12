@@ -46,7 +46,8 @@ class Talk(
         val outline:String? = null,
         val infoToProgramCommittee:String? = null,
         val speakers:List<Speaker>? = null,
-        val conferenceId: String? = null
+        val conferenceId: String? = null,
+        val postedBy:String? = null
 
 ) {
     @Suppress("unused")
@@ -64,7 +65,9 @@ class Talk(
             abstract= readDataValue(talkObject,"abstract"),
             outline = readDataValue(talkObject,"outline"),
             infoToProgramCommittee = readDataValue(talkObject,"infoToProgramCommittee"),
-            speakers = Speaker.readFromJson(talkObject.arrayValue("speakers").orElse(null))
+            speakers = Speaker.readFromJson(talkObject.arrayValue("speakers").orElse(null)),
+            postedBy = talkObject.stringValue("postedBy").orElse(null)
+
 
     )
 

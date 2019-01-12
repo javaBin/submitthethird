@@ -42,7 +42,7 @@ class LiveSleepingPillSender:SleepingPillSender {
         if (responseCode >= 400) {
             urlConnection.errorStream.use {
                 val res = toString(it)
-                throw RequestError(HttpServletResponse.SC_BAD_GATEWAY, "Error communicating with backend " + res)
+                throw SleepingPillError(responseCode, res)
             }
         }
         return urlConnection.inputStream.use { JsonParser.parseToObject(it) }

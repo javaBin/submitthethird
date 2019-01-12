@@ -5,7 +5,8 @@ import org.jsonbuddy.JsonObject
 import java.lang.RuntimeException
 import javax.servlet.http.HttpServletRequest
 
-class RequestError(val errorType:Int,message:String):RuntimeException()
+class RequestError(val errorType:Int,val errormessage: String):RuntimeException()
+class SleepingPillError(val errorType:Int,val errormessage:String):RuntimeException()
 class FunctionalError(val errormessage:String):RuntimeException()
 
 private fun readEmail(req: HttpServletRequest): String? {

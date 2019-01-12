@@ -5,6 +5,7 @@ import no.java.submit.commands.CreateTokenCommand
 import no.java.submit.commands.IllegalPathCommand
 import no.java.submit.commands.isValidEmail
 import no.java.submit.queries.allTalksForSpeaker
+import no.java.submit.queries.oneGivenTalk
 import org.jsonbuddy.JsonFactory
 import org.jsonbuddy.JsonObject
 import org.jsonbuddy.parse.JsonParser
@@ -34,9 +35,12 @@ class ApiServlet:HttpServlet() {
         val responsobj:JsonObject = try {
             executor()
         } catch (f:FunctionalError) {
-            JsonObject().put("status","error").put("errormessage",f.errormessage)
+            JsonObject().put("status", "error").put("errormessage", f.errormessage)
+        } catch (s:SleepingPillError) {
+            resp.sendError(HttpServletResponse.SC_BAD_GATEWAY,"Error communicating with backend " + s.errormessage)
+            return
         } catch (e:RequestError) {
-            resp.sendError(e.errorType,e.message)
+            resp.sendError(e.errorType,e.errormessage)
             return
         }
         resp.contentType = "application/json"
@@ -51,6 +55,7 @@ class ApiServlet:HttpServlet() {
         doStuff(resp) {
             when {
                 "/all".equals(callIdentification.pathInfo) -> allTalksForSpeaker(callIdentification)
+                callIdentification.pathInfo?.startsWith("/talk/") == true -> oneGivenTalk(callIdentification)
                 else -> throw RequestError(HttpServletResponse.SC_BAD_REQUEST, "Unknown path ${callIdentification.pathInfo}")
             }
         }
