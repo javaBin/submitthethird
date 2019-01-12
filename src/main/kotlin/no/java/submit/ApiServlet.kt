@@ -4,6 +4,7 @@ import no.java.submit.commands.CreateTalkCommand
 import no.java.submit.commands.CreateTokenCommand
 import no.java.submit.commands.IllegalPathCommand
 import no.java.submit.commands.isValidEmail
+import no.java.submit.queries.allTalksForSpeaker
 import org.jsonbuddy.JsonFactory
 import org.jsonbuddy.JsonObject
 import org.jsonbuddy.parse.JsonParser
@@ -26,8 +27,12 @@ class ApiServlet:HttpServlet() {
         }
         val payload:JsonObject = req.inputStream.use {JsonParser.parseToObject(it)}
         val command:Command = PojoMapper.map(payload,kotlinClass.java)
+        doStuff(resp) {command.doStuff(callIdentification).put("status","ok") }
+    }
+
+    private fun doStuff(resp: HttpServletResponse,executor:() -> JsonObject) {
         val responsobj:JsonObject = try {
-            command.doStuff(callIdentification).put("status","ok")
+            executor()
         } catch (f:FunctionalError) {
             JsonObject().put("status","error").put("errormessage",f.errormessage)
         } catch (e:RequestError) {
@@ -36,7 +41,19 @@ class ApiServlet:HttpServlet() {
         }
         resp.contentType = "application/json"
         responsobj.toJson(resp.writer)
+    }
 
+    override fun doGet(req: HttpServletRequest?, resp: HttpServletResponse?) {
+        if (req == null || resp == null) {
+            return
+        }
+        val callIdentification = CallIdentification(req)
+        doStuff(resp) {
+            when {
+                "/all".equals(callIdentification.pathInfo) -> allTalksForSpeaker(callIdentification)
+                else -> throw RequestError(HttpServletResponse.SC_BAD_REQUEST, "Unknown path ${callIdentification.pathInfo}")
+            }
+        }
     }
 
 

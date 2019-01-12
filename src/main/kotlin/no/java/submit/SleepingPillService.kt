@@ -8,15 +8,22 @@ import java.net.URL
 import javax.servlet.http.HttpServletResponse
 
 interface SleepingPillSender {
-    fun post(path:String,payload: JsonObject):JsonObject
+    fun post(path:String,httpPostMethod: HttpPostMethod,payload: JsonObject):JsonObject
+    fun get(path: String):JsonObject
 }
 
 class LiveSleepingPillSender:SleepingPillSender {
-    private val sleepingPillLocation = Setup.sleepingPillLocation()
-    override fun post(path: String, payload: JsonObject): JsonObject {
+    override fun get(path: String): JsonObject {
         val urlConnection = URL(sleepingPillLocation + path).openConnection() as HttpURLConnection
         urlConnection.setRequestProperty("content-type","application/json")
-        urlConnection.requestMethod = "POST"
+        return readResult(urlConnection)
+    }
+
+    private val sleepingPillLocation = Setup.sleepingPillLocation()
+    override fun post(path: String, httpPostMethod: HttpPostMethod,payload: JsonObject): JsonObject {
+        val urlConnection = URL(sleepingPillLocation + path).openConnection() as HttpURLConnection
+        urlConnection.setRequestProperty("content-type","application/json")
+        urlConnection.requestMethod = httpPostMethod.toString()
 
         urlConnection.doOutput = true
 
@@ -26,15 +33,19 @@ class LiveSleepingPillSender:SleepingPillSender {
 
 
 
+        return readResult(urlConnection)
+
+    }
+
+    private fun readResult(urlConnection: HttpURLConnection): JsonObject {
         val responseCode = urlConnection.responseCode
         if (responseCode >= 400) {
             urlConnection.errorStream.use {
                 val res = toString(it)
-                throw RequestError(HttpServletResponse.SC_BAD_GATEWAY,"Error communicating with backend " + res)
+                throw RequestError(HttpServletResponse.SC_BAD_GATEWAY, "Error communicating with backend " + res)
             }
         }
         return urlConnection.inputStream.use { JsonParser.parseToObject(it) }
-
     }
 
     @Throws(IOException::class)
@@ -54,15 +65,25 @@ class LiveSleepingPillSender:SleepingPillSender {
 
 }
 
+enum class HttpPostMethod {
+    POST,PUT
+}
+
 object SleepingPillService {
     var sleepingPillSender:SleepingPillSender? = null
 
-    fun post(path:String,payload: JsonObject):JsonObject {
+    fun post(path:String,method:HttpPostMethod,payload: JsonObject):JsonObject {
         if (sleepingPillSender == null) {
             sleepingPillSender = LiveSleepingPillSender()
         }
-        return sleepingPillSender!!.post(path,payload)
+        return sleepingPillSender!!.post(path,method,payload)
+    }
 
+    fun get(path:String):JsonObject {
+        if (sleepingPillSender == null) {
+            sleepingPillSender = LiveSleepingPillSender()
+        }
+        return sleepingPillSender!!.get(path)
     }
 
 }

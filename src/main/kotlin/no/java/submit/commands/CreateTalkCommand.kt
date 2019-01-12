@@ -22,13 +22,14 @@ class CreateTalkCommand(val talk: Talk?):Command {
         if (talk.speakers?.isEmpty() != false) {
             throw FunctionalError("At least one speaker must be registered")
         }
+        talk.speakers.forEach { it.checkValidOnCreate() }
         val createTalkPayload = JsonObject()
         createTalkPayload.put("postedBy",callIdentification.callerEmail)
         createTalkPayload.put("conferenceId",Setup.sleepingpillConferenceId())
         createTalkPayload.put("data",talk.spDataObject())
         createTalkPayload.put("speakers",JsonArray.fromNodeList(talk.speakers.map { it.spSpeakerObject() }))
 
-        val res = SleepingPillService.post("/data/conference/${Setup.sleepingpillConferenceId()}/session",createTalkPayload)
+        val res = SleepingPillService.post("/data/conference/${Setup.sleepingpillConferenceId()}/session",HttpPostMethod.POST,createTalkPayload)
         return res
 
     }
