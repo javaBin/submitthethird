@@ -8,7 +8,7 @@
     <main id="editTalkMain">
         <h2>Title</h2>
         <p>Select an expressive and snappy title that captures the content of your talk without being too long. Remember that the title must be attractive and should make people curious.</p>
-        <input type="text" size="80" placeholder="A short and snappy title">
+        <input type="text" size="80" placeholder="A short and snappy title" id="title">
         <h2>Language</h2>
         <p>Which language will you be holding the talk in? It is permitted to use English in your slides, even though you may be talking in Norwegian, but you should write the rest of the abstract in the language you will speak in. We generally recommend that you hold the talk in the language you are most comfortable with.</p>
         <div>
@@ -58,13 +58,14 @@
         <button id="submitTalk">Submit your talk</button>
         <script type="text/html" id="speakertemplate">
             <div>
+                <input type="hidden" class="speakerid">
                 <h2>Speaker</h2>
                 <h3>Speakers name</h3>
                 <input type="text" class="speakername">
                 <h3>Speakers email (not public)</h3>
                 <input type="text" class="speakeremail">
                 <h3>Short description of the speaker (try not to exceed 150 words)</h3>
-                <input type="text" class="speakerbio" placeholder="Tell the audience who this speaker is, and why she/he is the perfect person to hold this talk.">
+                <textarea class="speakerbio" placeholder="Tell the audience who this speaker is, and why she/he is the perfect person to hold this talk." rows="5" cols="80" style="resize: none">
                 <h3>Your twitter handle (optional)</h3>
                 <input type="text" class="speakertwitter">
                 <h3>Your Norwegian Postal Code (optional - not public)</h3>
@@ -75,6 +76,7 @@
         </script>
     </main>
     <script src="/js/lib/jquery331.js"></script>
+    <script src="/js/commonHandler.js"></script>
     <script src="/js/editTalkHandler.js"></script>
 </body>
 </html>

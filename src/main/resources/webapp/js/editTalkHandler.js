@@ -24,6 +24,7 @@ window.EditTalkHandler = {
 
     },
     speakerDoms: [],
+    talkId: null,
     init: function ($el) {
         var self = window.EditTalkHandler;
         self.$el = $el;
@@ -34,6 +35,7 @@ window.EditTalkHandler = {
             //console.log("Format changed " + $(this).val())
             self.updateLengthOptions(self.$el.find("input[name='format']:checked").val());
         });
+        self.talkId = window.CommonHandler.getUrlParameter("id");
     },
     emptyTalk: function() {
         return {
@@ -75,13 +77,43 @@ window.EditTalkHandler = {
         var speakers = [];
         $.each(self.speakerDoms,function (index, speakerDom) {
           var speakerobj = {
-              name: speakerDom.find(".speakername").val()
+              id: speakerDom.find(".speakerid").val(),
+              name: speakerDom.find(".speakername").val(),
+              email: speakerDom.find(".speakeremail").val(),
+              bio: speakerDom.find(".speakerbio").val(),
+              twitter: speakerDom.find(".speakertwitter").val(),
+              zipCode: speakerDom.find(".speakerpostcode").val()
           };
           speakers.push(speakerobj);
         });
         var talkToSubmit = {
+            id: self.talkId,
+            title: self.$el.find("#title").val(),
+            language: self.$el.find("input[name='language']:checked").val(),
+            intendedAudience: self.$el.find("#intendedAudience").val(),
+            format: self.$el.find("input[name='format']:checked").val(),
+            equipment:self.$el.find("#equipment").val(),
+            abstract: self.$el.find("#abstract").val(),
+            outline: self.$el.find("#outline").val(),
+            infoToProgramCommittee: self.$el.find("#infoToProgramCommittee").val(),
+            length: self.$el.find("#length").val(),
             speakers: speakers
         };
-        console.log(talkToSubmit);
+        var url;
+        if (self.id) {
+            url = "/api/updateTalk";
+        } else {
+            url = "api/createTalk";
+        }
+        var payload = {talk: talkToSubmit};
+        console.log(payload);
+        window.CommonHandler.ajax({
+            data: JSON.stringify(payload),
+            url: url,
+            method:"POST",
+            success: function () {
+                window.location.href="/showTalks.html"
+            }
+        })
     }
 };

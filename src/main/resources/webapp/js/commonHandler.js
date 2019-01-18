@@ -7,10 +7,8 @@ window.CommonHandler = {
     ajax: function (settings) {
         var token = window.CommonHandler.readAcccesstoken();
         if (token) {
-            if (accesstoken) {
-                settings.headers = {
-                    submittoken: token
-                }
+            settings.headers = {
+                submittoken: token
             }
         }
         return $.ajax(settings)

@@ -13,6 +13,6 @@ window.EmailLoginHandler= {
             return;
         }
         window.CommonHandler.storeToken(token)
-
+        window.location.href = "/showTalks.html"
     }
 };

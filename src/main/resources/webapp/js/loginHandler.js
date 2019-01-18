@@ -1,5 +1,5 @@
 $(function () {
-    window.LoginHandler.init($("#loginmain"))
+    window.LoginHandler.init($("#loginmain"));
 });
 
 window.LoginHandler = {
@@ -16,8 +16,9 @@ window.LoginHandler = {
         var payload = {
             email: self.$el.find("#email").val()
         };
-        if (_.isEmpty(payload.email) {
+        if (_.isEmpty(payload.email)) {
             $message.append("Please fill in an email")
+            return;
         }
         window.CommonHandler.ajax({
             url: "/api/createToken",

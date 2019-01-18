@@ -34,7 +34,7 @@ class CreateTokenCommand(val email:String?):Command {
         val body = """
             |<html>
             |<body>
-            |Login <a href="${Setup.serverAddress()}"/emailLogin.html?token=${URLEncoder.encode(token,"UTF-8")}">here</a>
+            |Login <a href="${Setup.serverAddress()}/emailLogin.html?token=${URLEncoder.encode(token,"UTF-8")}">here</a>
             |</body>
             |</html>
         """.trimMargin()
