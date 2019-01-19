@@ -127,7 +127,7 @@ window.EditTalkHandler = {
             speakers: speakers
         };
         var url;
-        if (self.id) {
+        if (self.talkId) {
             url = "/api/updateTalk";
         } else {
             url = "api/createTalk";

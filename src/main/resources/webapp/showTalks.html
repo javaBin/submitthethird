@@ -5,9 +5,25 @@
     <title>Submit</title>
 </head>
 <body>
-<h1>Your talks</h1>
-<a href="/talkEdit.html">Add a talk</a>
+<main id="showTalkMain">
+    <h1>Your talks</h1>
+    <a href="/talkEdit.html">Add a talk</a>
+    <div id="talkList">
+
+    </div>
+    <script type="text/html" id="conferenceTemplate">
+        <div>
+            <h2 class="conferenceName"></h2>
+            <ul class="talkForYear"></ul>
+        </div>
+    </script>
+    <script type="text/html" id="talkTemplate">
+        <li><a class="talkLink"><span class="talkName"></span></a></li>
+    </script>
+</main>
+
 <script src="/js/lib/jquery331.js"></script>
 <script src="/js/commonHandler.js"></script>
+<script src="/js/showTalksHandler.js"></script>
 </body>
 </html>
