@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <meta charset="UTF-8">
     <title>Submit</title>
 </head>
 <body>
+    <div class="banner">
+        <img src="https://storage.googleapis.com/javazone-assets/images/2018/180912_JavaZone_0145.jpg" />
+    </div>
     <main id="editTalkMain">
+        <div class="seperator"></div>
         <h2>Title</h2>
         <p>Select an expressive and snappy title that captures the content of your talk without being too long. Remember that the title must be attractive and should make people curious.</p>
-        <input type="text" size="80" placeholder="A short and snappy title" id="title">
+        <input class="input" type="text" size="80" placeholder="A short and snappy title" id="title">
         <h2>Language</h2>
         <p>Which language will you be holding the talk in? It is permitted to use English in your slides, even though you may be talking in Norwegian, but you should write the rest of the abstract in the language you will speak in. We generally recommend that you hold the talk in the language you are most comfortable with.</p>
         <div>
@@ -22,10 +27,10 @@
         <!-- $("input[name='language']:checked").val();-->
         <h2>Description</h2>
         <p>Give a concise description of the content and goals of your talk. Try not to exceed 300 words, as shorter and more to-the-point descriptions are more likely to be read by the participants.</p>
-        <textarea id="abstract" rows="5" cols="80" style="resize: none"></textarea>
+        <textarea class="input" id="abstract" rows="5" cols="80" style="resize: none"></textarea>
         <h2>Expected audience</h2>
         <p>Who should attend this session? How will the participants benefit from attending? What experience (if any) should the audience have to get the most value out of your talk?</p>
-        <textarea id="intendedAudience" rows="5" cols="80" style="resize: none"></textarea>
+        <textarea class="input" id="intendedAudience" rows="5" cols="80" style="resize: none"></textarea>
         <h2>Presentation format</h2>
         <p>In which format are you presenting your talk?</p>
         <div>
@@ -45,13 +50,13 @@
         <select id="length"></select>
         <h2>Outline (not public)</h2>
         <p>The information will be used by the Program Committee to review the details of your talk. The outline should be a rough agenda for the talk, with a short description for each section, and with a rough estimate of the time spent on each. Omitting this section will reduce the chances of your submission being accepted.</p>
-        <textarea id="outline" rows="5" cols="80" style="resize: none"></textarea>
+        <textarea class="input" id="outline" rows="5" cols="80" style="resize: none"></textarea>
         <h2>Equipment (not public)</h2>
         <p>Please specify any additional special equipment you may need. Note that all get access to WiFi and a projector.</p>
-        <textarea id="equipment" rows="5" cols="80" style="resize: none"></textarea>
+        <textarea class="input" id="equipment" rows="5" cols="80" style="resize: none"></textarea>
         <h2>Information for the program commitee (not public)</h2>
         <p>Please include any information relevant to the Program Committee. Here you can write a few words about your motivation for speaking at JavaZone, and optionally include links to videos and slides from previous speaker engagements, or other links that tell us about you (e.g. your GitHub profile).</p>
-        <textarea id="infoToProgramCommittee" rows="5" cols="80" style="resize: none"></textarea>
+        <textarea class="input" id="infoToProgramCommittee" rows="5" cols="80" style="resize: none"></textarea>
         <div id="speakerList"></div>
         <h2>Ready?</h2>
         <p>Submit your talk to the program committe. You can edit the talk later</p>
