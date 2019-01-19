@@ -9,11 +9,14 @@ window.ShowTalksHandler = {
     init: function ($el) {
         var self = window.ShowTalksHandler;
         self.$el = $el;
-        self.conferenceTemplate = self.$el.find("#conferenceTemplate").html();
-        self.talkTemplate = self.$el.find("#talkTemplate").html();
-        window.CommonHandler.ajax({
-            url: "/api/all",
-            success: self.populateTalks
+        window.CommonHandler.checkLoggedIn(function(email) {
+            self.conferenceTemplate = self.$el.find("#conferenceTemplate").html();
+            self.talkTemplate = self.$el.find("#talkTemplate").html();
+            self.$el.find("#email").append(email);
+            window.CommonHandler.ajax({
+                url: "/api/all",
+                success: self.populateTalks
+            });
         });
     },
     populateTalks: function (fromServer) {

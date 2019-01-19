@@ -53,3 +53,10 @@ fun oneTalkFromSleepingpill(talkid: String, callerEmail: String): Talk {
     }
     return talk
 }
+
+fun loginEmail(callIdentification: CallIdentification):JsonObject {
+    if (callIdentification.callerEmail == null) {
+        throw RequestError(HttpServletResponse.SC_UNAUTHORIZED,"Missing token")
+    }
+    return JsonObject().put("email",callIdentification.callerEmail)
+}

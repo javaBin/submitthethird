@@ -28,23 +28,25 @@ window.EditTalkHandler = {
     init: function ($el) {
         var self = window.EditTalkHandler;
         self.$el = $el;
-        self.speakerTemplate = self.$el.find("#speakertemplate").html();
-        self.$el.find("#submitTalk").click(self.submitTalk);
-        self.$el.find('input[name="format"]').change(function () {
-            self.updateLengthOptions(self.$el.find("input[name='format']:checked").val());
-        });
-        self.talkId = window.CommonHandler.getUrlParameter("id");
-        if (self.talkId) {
-            window.CommonHandler.ajax({
-                url: "/api/talk/" + self.talkId,
-                success:function (fromServer) {
-                    self.setupTalk(fromServer);
-                }
+        window.CommonHandler.checkLoggedIn(function(email) {
+            self.speakerTemplate = self.$el.find("#speakertemplate").html();
+            self.$el.find("#submitTalk").click(self.submitTalk);
+            self.$el.find('input[name="format"]').change(function () {
+                self.updateLengthOptions(self.$el.find("input[name='format']:checked").val());
             });
+            self.talkId = window.CommonHandler.getUrlParameter("id");
+            if (self.talkId) {
+                window.CommonHandler.ajax({
+                    url: "/api/talk/" + self.talkId,
+                    success:function (fromServer) {
+                        self.setupTalk(fromServer);
+                    }
+                });
 
-        } else {
-            self.setupTalk(self.emptyTalk())
-        }
+            } else {
+                self.setupTalk(self.emptyTalk())
+            }
+        });
     },
     emptyTalk: function() {
         return {

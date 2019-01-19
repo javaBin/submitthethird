@@ -2,6 +2,7 @@ package no.java.submit
 
 import no.java.submit.commands.*
 import no.java.submit.queries.allTalksForSpeaker
+import no.java.submit.queries.loginEmail
 import no.java.submit.queries.oneGivenTalk
 import org.jsonbuddy.JsonFactory
 import org.jsonbuddy.JsonObject
@@ -54,6 +55,7 @@ class ApiServlet:HttpServlet() {
             when {
                 "/all".equals(callIdentification.pathInfo) -> allTalksForSpeaker(callIdentification)
                 callIdentification.pathInfo?.startsWith("/talk/") == true -> oneGivenTalk(callIdentification)
+                "/id".equals(callIdentification.pathInfo) -> loginEmail(callIdentification)
                 else -> throw RequestError(HttpServletResponse.SC_BAD_REQUEST, "Unknown path ${callIdentification.pathInfo}")
             }
         }

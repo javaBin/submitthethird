@@ -13,6 +13,17 @@ window.CommonHandler = {
         }
         return $.ajax(settings)
     },
+    checkLoggedIn: function(callback) {
+        window.CommonHandler.ajax({
+            url:"/api/id",
+            success: function (fromServer) {
+                callback(fromServer.email);
+            },
+            error: function( jqXHR, textStatus, errorThrown ) {
+                window.location.href = "/emailLogin.html";
+            }
+        });
+    },
     storeToken: function(token) {
         localStorage.setItem("submit.accesstoken",token);
     },

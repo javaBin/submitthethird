@@ -20,7 +20,7 @@ window.indexHandler = {
     init: function () {
         var token = window.CommonHandler.readAcccesstoken()
         if (token) {
-            window.location.href = "/listTalks.html"
+            window.location.href = "/showTalks.html"
         } else {
             window.location.href = "/login.html"
         }
