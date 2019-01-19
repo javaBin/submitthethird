@@ -16,7 +16,7 @@ class CreateTalkCommand(val talk: Talk?):Command {
         if (talk == null) {
             throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Missing talkobj")
         }
-        if (talk.title == null) {
+        if (talk.title?.trim()?.isEmpty() != false) {
             throw FunctionalError("The talk needs a title")
         }
         if (talk.speakers?.isEmpty() != false) {

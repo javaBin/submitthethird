@@ -136,11 +136,17 @@ window.EditTalkHandler = {
         }
         var payload = {talk: talkToSubmit};
         console.log(payload);
+        var $errormessage=self.$el.find("#errormessage");
+        $errormessage.empty();
         window.CommonHandler.ajax({
             data: JSON.stringify(payload),
             url: url,
             method:"POST",
-            success: function () {
+            success: function (fromServer) {
+                if (fromServer.status === "error") {
+                    $errormessage.append(fromServer.errormessage);
+                    return;
+                }
                 window.location.href="/showTalks.html"
             }
         })

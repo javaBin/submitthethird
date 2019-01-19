@@ -20,7 +20,10 @@ class UpdateTalkCommand(val talk:Talk?):Command {
         if (talk?.id == null) {
             throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Need a talk with id")
         }
-        oneTalkFromSleepingpill(talk.id,callIdentification.callerEmail)
+        val currentTalk = oneTalkFromSleepingpill(talk.id,callIdentification.callerEmail)
+        if (currentTalk.conferenceId != Setup.sleepingpillConferenceId()) {
+            throw FunctionalError("You cannot edit a talk from a previous year");
+        }
 
         val updateTalkPayload = JsonObject()
         updateTalkPayload.put("id",talk.id)
