@@ -29,13 +29,22 @@ window.EditTalkHandler = {
         var self = window.EditTalkHandler;
         self.$el = $el;
         self.speakerTemplate = self.$el.find("#speakertemplate").html();
-        self.setupTalk(self.emptyTalk())
         self.$el.find("#submitTalk").click(self.submitTalk);
         self.$el.find('input[name="format"]').change(function () {
-            //console.log("Format changed " + $(this).val())
             self.updateLengthOptions(self.$el.find("input[name='format']:checked").val());
         });
         self.talkId = window.CommonHandler.getUrlParameter("id");
+        if (self.talkId) {
+            window.CommonHandler.ajax({
+                url: "/api/talk/" + self.talkId,
+                success:function (fromServer) {
+                    self.setupTalk(fromServer);
+                }
+            });
+
+        } else {
+            self.setupTalk(self.emptyTalk())
+        }
     },
     emptyTalk: function() {
         return {
@@ -47,6 +56,18 @@ window.EditTalkHandler = {
         var self = window.EditTalkHandler;
         self.$el.find("#" + self.formatValues[talk.format].radioid).prop("checked",true);
         self.updateLengthOptions(talk.format);
+
+        self.$el.find("input[name=language][value=" + talk.language + "]").prop("checked",true);
+
+        self.$el.find("#title").val(talk.title);
+        self.$el.find("#abstract").val(talk.abstract);
+        self.$el.find("#intendedAudience").val(talk.intendedAudience);
+        self.$el.find("#length").val(talk.length);
+        self.$el.find("#outline").val(talk.outline);
+        self.$el.find("#equipment").val(talk.equipment);
+        self.$el.find("#infoToProgramCommittee").val(talk.infoToProgramCommittee);
+
+
         self.speakerDoms = [];
         $.each(talk.speakers,function (index, speaker) {
             self.speakerDoms.push(self.appendSpeaker(speaker));
@@ -69,6 +90,12 @@ window.EditTalkHandler = {
     appendSpeaker:function(speaker) {
         var self = window.EditTalkHandler;
         var $speakerDom = $(self.speakerTemplate);
+        $speakerDom.find(".speakerid").val(speaker.id);
+        $speakerDom.find(".speakername").val(speaker.name);
+        $speakerDom.find(".speakeremail").val(speaker.email);
+        $speakerDom.find(".speakertwitter").val(speaker.twitter);
+        $speakerDom.find(".speakerbio").val(speaker.bio);
+        $speakerDom.find(".speakerpostcode").val(speaker.zipCode);
         self.$el.find("#speakerList").append($speakerDom);
         return $speakerDom
     },
