@@ -52,7 +52,7 @@ object Setup {
     }
 
     fun sleepingpillConferenceId():String {
-        return readValue("sleepingpillConferenceId","43df2162-c473-4e53-8433-0ecfcc2ac3b9")
+        return readValue("sleepingpillConferenceId","577a17d5-eb3b-4dc2-ba62-57d960404e7a")
     }
 
     fun sleepingPillLocation(): String {
