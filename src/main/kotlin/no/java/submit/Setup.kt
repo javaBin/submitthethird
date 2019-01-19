@@ -7,8 +7,12 @@ object Setup {
 
 
     init {
-        if (setupFile == null) {
-            setupData = emptyMap()
+        setupData =
+        if (submitTest != null) {
+            mapOf(Pair("sleepingpillPassword", submitTest!!))
+        }
+        else if (setupFile == null) {
+            emptyMap()
         } else {
             val readMap:MutableMap<String,String> = mutableMapOf()
             for (line:String in File(setupFile).readLines()) {
@@ -20,7 +24,7 @@ object Setup {
                 val value = line.substring(pos+1)
                 readMap[key] = value
             }
-            setupData = readMap
+            readMap
         }
     }
 
@@ -56,11 +60,11 @@ object Setup {
     }
 
     fun sleepingPillLocation(): String {
-        return readValue("sleepingPillLocation","http://localhost:8082")
+        return readValue("sleepingPillLocation","https://test-sleepingpill.javazone.no")
     }
 
     fun sleepingpillUser(): String? {
-        return readValue("sleepingpillUser","null").let {if (it == "null") null else it}
+        return readValue("sleepingpillUser","fullaccess").let {if (it == "null") null else it}
     }
 
     fun sleepingpillPassword(): String {
