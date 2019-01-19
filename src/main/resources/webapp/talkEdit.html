@@ -47,7 +47,7 @@
         </div>
         <h2>Presentation Length</h2>
         <p>Please select the length of the presentation (in minutes) <span id="lengthDescription"></span></p>
-        <select id="length"></select>
+        <select class="custom-select" id="length"></select>
         <h2>Outline (not public)</h2>
         <p>The information will be used by the Program Committee to review the details of your talk. The outline should be a rough agenda for the talk, with a short description for each section, and with a rough estimate of the time spent on each. Omitting this section will reduce the chances of your submission being accepted.</p>
         <textarea class="input" id="outline" rows="5" cols="80" style="resize: none"></textarea>
@@ -64,19 +64,19 @@
         <button id="submitTalk">Submit your talk</button>
         <script type="text/html" id="speakertemplate">
             <div>
-                <input type="hidden" class="speakerid">
+                <input class="input" type="hidden" class="speakerid">
                 <h2>Speaker</h2>
                 <h3>Speakers name</h3>
-                <input type="text" class="speakername">
+                <input class="input" type="text" class="speakername">
                 <h3>Speakers email (not public)</h3>
-                <input type="text" class="speakeremail">
+                <input class="input" type="text" class="speakeremail">
                 <h3>Short description of the speaker (try not to exceed 150 words)</h3>
-                <textarea class="speakerbio" placeholder="Tell the audience who this speaker is, and why she/he is the perfect person to hold this talk." rows="5" cols="80" style="resize: none"></textarea>
+                <textarea class="input" class="speakerbio" placeholder="Tell the audience who this speaker is, and why she/he is the perfect person to hold this talk." rows="5" cols="80" style="resize: none"></textarea>
                 <h3>Your twitter handle (optional)</h3>
-                <input type="text" class="speakertwitter">
+                <input class="input" type="text" class="speakertwitter">
                 <h3>Your Norwegian Postal Code (optional - not public)</h3>
                 <p>Will let us contact you about future speaking opportunities in local javaBin user groups :)</p>
-                <input type="text" class="speakerpostcode">
+                <input class="input" type="text" class="speakerpostcode">
             </div>
 
         </script>
