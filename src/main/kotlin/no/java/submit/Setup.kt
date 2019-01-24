@@ -33,8 +33,8 @@ object Setup {
     }
 
 
-    fun isDevEnviroment(): Boolean {
-        return "true".equals(readValue("isDevEnviroment","true"))
+    fun runAsJarFile(): Boolean {
+        return "true".equals(readValue("runAsJarFile","false"))
     }
 
     fun serverPort(): Int {

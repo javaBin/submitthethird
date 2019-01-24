@@ -30,12 +30,12 @@ private fun createHandler(): WebAppContext {
     //webAppContext.sessionHandler.setMaxInactiveInterval(30)
     webAppContext.contextPath = "/"
 
-    if (Setup.isDevEnviroment()) {
-        // Development ie running in ide
-        webAppContext.resourceBase = "src/main/resources/webapp"
-    } else {
+    if (Setup.runAsJarFile()) {
         // Prod ie running from jar
         webAppContext.baseResource = Resource.newClassPathResource("webapp", true, false)
+    } else {
+        // Development ie running in ide
+        webAppContext.resourceBase = "src/main/resources/webapp"
     }
 
     webAppContext.addServlet(ServletHolder(ApiServlet()), "/api/*")
