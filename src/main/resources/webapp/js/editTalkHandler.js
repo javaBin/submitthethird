@@ -68,13 +68,23 @@ window.EditTalkHandler = {
         self.$el.find("#outline").val(talk.outline);
         self.$el.find("#equipment").val(talk.equipment);
         self.$el.find("#infoToProgramCommittee").val(talk.infoToProgramCommittee);
+        self.$el.find("#addSpeaker").click(self.addSpeaker);
 
 
         self.speakerDoms = [];
+        var canDelete = (talk.speakers.length > 1);
         $.each(talk.speakers,function (index, speaker) {
-            self.speakerDoms.push(self.appendSpeaker(speaker));
+            self.appendSpeaker(speaker,canDelete);
         });
 
+    },
+    addSpeaker:function() {
+        var self = window.EditTalkHandler;
+        self.$el.find("#addSpeakerSection").hide();
+        $.each(self.speakerDoms,function(index,$speaker) {
+            $speaker.find(".removeSpeakerSection").show();
+        });
+        self.appendSpeaker({},true);
     },
     updateLengthOptions:function(format) {
         var self = window.EditTalkHandler;
@@ -89,7 +99,7 @@ window.EditTalkHandler = {
         $lengthDescription.append(self.formatValues[format].helpText);
 
     },
-    appendSpeaker:function(speaker) {
+    appendSpeaker:function(speaker,canDelete) {
         var self = window.EditTalkHandler;
         var $speakerDom = $(self.speakerTemplate);
         $speakerDom.find(".speakerid").val(speaker.id);
@@ -98,8 +108,22 @@ window.EditTalkHandler = {
         $speakerDom.find(".speakertwitter").val(speaker.twitter);
         $speakerDom.find(".speakerbio").val(speaker.bio);
         $speakerDom.find(".speakerpostcode").val(speaker.zipCode);
+
+        if (!canDelete) {
+            $speakerDom.find(".removeSpeakerSection").hide();
+        }
         self.$el.find("#speakerList").append($speakerDom);
-        return $speakerDom
+        self.speakerDoms.push($speakerDom);
+        var deleteIndex = self.speakerDoms.length-1
+        $speakerDom.find(".removeSpeaker").click(function () {
+            $speakerDom.remove();
+            self.speakerDoms.splice(deleteIndex,1);
+            self.$el.find("#addSpeakerSection").show();
+            $.each(self.speakerDoms,function(index,$speaker) {
+                $speaker.find(".removeSpeakerSection").hide();
+            });
+        });
+
     },
     submitTalk: function () {
         var self = window.EditTalkHandler;
