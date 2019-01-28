@@ -24,10 +24,11 @@ class CreateTalkCommand(val talk: Talk?):Command {
         }
         talk.speakers.forEach { it.checkValidOnCreate() }
         val createTalkPayload = JsonObject()
-        createTalkPayload.put("postedBy",callIdentification.callerEmail)
-        createTalkPayload.put("conferenceId",Setup.sleepingpillConferenceId())
-        createTalkPayload.put("data",talk.spDataObject())
-        createTalkPayload.put("speakers",JsonArray.fromNodeList(talk.speakers.map { it.spSpeakerObject() }))
+            .put("postedBy",callIdentification.callerEmail)
+            .put("conferenceId",Setup.sleepingpillConferenceId())
+            .put("data",talk.spDataObject())
+            .put("speakers",JsonArray.fromNodeList(talk.speakers.map { it.spSpeakerObject() }))
+            .put("status","SUBMITTED")
 
         val res = SleepingPillService.post("/data/conference/${Setup.sleepingpillConferenceId()}/session",HttpPostMethod.POST,createTalkPayload)
         return res

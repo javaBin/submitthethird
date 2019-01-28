@@ -128,6 +128,7 @@ window.EditTalkHandler = {
     submitTalk: function () {
         var self = window.EditTalkHandler;
         var speakers = [];
+
         $.each(self.speakerDoms,function (index, speakerDom) {
           var speakerobj = {
               id: speakerDom.find(".speakerid").val(),
