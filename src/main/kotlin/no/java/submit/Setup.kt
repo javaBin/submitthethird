@@ -32,6 +32,9 @@ object Setup {
         return setupData[key]?:defaultValue
     }
 
+    private fun readNullableValue(key:String):String? {
+        return setupData[key]?.let { if ("null" == it) null else it}
+    }
 
     fun runAsJarFile(): Boolean {
         return "true".equals(readValue("runAsJarFile","false"))
@@ -69,6 +72,14 @@ object Setup {
 
     fun sleepingpillPassword(): String {
         return readValue("sleepingpillPassword","")
+    }
+
+    fun mailSenderType():MailSenderType {
+        return MailSenderType.valueOf(readValue("mailSenderType","CONSOLE"))
+    }
+
+    fun sendGridToken():String? {
+        return readNullableValue("sendGridToken")
     }
 
 }
