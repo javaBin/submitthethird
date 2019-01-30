@@ -10,22 +10,41 @@ object Setup {
         setupData =
         if (submitTest != null) {
             mapOf(Pair("sleepingpillPassword", submitTest!!))
-        }
-        else if (setupFile == null) {
-            emptyMap()
-        } else {
-            val readMap:MutableMap<String,String> = mutableMapOf()
-            for (line:String in File(setupFile).readLines()) {
-                if (line.startsWith(";") || line.startsWith("#")) {
-                    continue
-                }
-                val pos:Int = line.indexOf("=")
-                val key = line.substring(0,pos)
-                val value = line.substring(pos+1)
-                readMap[key] = value
+        } else if (setupFile != null) {
+            val allLines = File(setupFile).readLines()
+            readLinesToConfig(allLines)
+        } else if (javaClass.classLoader.getResourceAsStream("config.txt") != null) {
+            val lines = javaClass.classLoader.getResourceAsStream("config.txt").bufferedReader(Charsets.UTF_8).use {
+                it.readLines()
             }
-            readMap
+            readLinesToConfig(lines)
+        } else {
+            emptyMap()
         }
+    }
+
+    private fun readLinesToConfig(allLines: List<String>): Map<String, String> {
+        val readMap: MutableMap<String, String> = mutableMapOf()
+        for (line: String in allLines) {
+            if (line.startsWith(";") || line.startsWith("#")) {
+                continue
+            }
+            val pos: Int = line.indexOf("=")
+            val key = line.substring(0, pos)
+            val value = line.substring(pos + 1)
+            readMap[key] = value
+        }
+        return readMap
+    }
+
+    private fun readConfigLine(line: String, readMap: MutableMap<String, String>) {
+        if (line.startsWith(";") || line.startsWith("#")) {
+            return
+        }
+        val pos: Int = line.indexOf("=")
+        val key = line.substring(0, pos)
+        val value = line.substring(pos + 1)
+        readMap[key] = value
     }
 
     private fun readValue(key:String,defaultValue:String):String {
@@ -37,7 +56,7 @@ object Setup {
     }
 
     fun runAsJarFile(): Boolean {
-        return "true".equals(readValue("runAsJarFile","false"))
+        return "true".equals(readValue("runAsJarFile","true"))
     }
 
     fun serverPort(): Int {
@@ -80,6 +99,10 @@ object Setup {
 
     fun sendGridToken():String? {
         return readNullableValue("sendGridToken")
+    }
+
+    fun configFileName():String {
+        return readValue("configFileName","default");
     }
 
 }

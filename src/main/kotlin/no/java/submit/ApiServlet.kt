@@ -8,6 +8,8 @@ import org.jsonbuddy.JsonFactory
 import org.jsonbuddy.JsonObject
 import org.jsonbuddy.parse.JsonParser
 import org.jsonbuddy.pojo.PojoMapper
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -56,9 +58,14 @@ class ApiServlet:HttpServlet() {
                 "/all".equals(callIdentification.pathInfo) -> allTalksForSpeaker(callIdentification)
                 callIdentification.pathInfo?.startsWith("/talk/") == true -> oneGivenTalk(callIdentification)
                 "/id".equals(callIdentification.pathInfo) -> loginEmail(callIdentification)
+                "/config".equals(callIdentification.pathInfo) -> reportConfig()
                 else -> throw RequestError(HttpServletResponse.SC_BAD_REQUEST, "Unknown path ${callIdentification.pathInfo}")
             }
         }
+    }
+
+    private fun reportConfig(): JsonObject {
+        return JsonObject().put("config",Setup.configFileName()).put("time",ZonedDateTime.now().toString())
     }
 
 
