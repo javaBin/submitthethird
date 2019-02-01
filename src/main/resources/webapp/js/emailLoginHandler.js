@@ -12,7 +12,7 @@ window.EmailLoginHandler= {
             window.location.href = "/";
             return;
         }
-        window.CommonHandler.storeToken(token)
+        window.CommonHandler.storeToken(token);
         window.location.href = "/showTalks.html"
     }
 };

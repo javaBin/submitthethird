@@ -1,11 +1,29 @@
 "use strict";
 
 window.CommonHandler = {
-    readAcccesstoken: function () {
-        return localStorage.getItem("submit.accesstoken");
+    readAcccesstoken: function (callback) {
+        var token = localStorage.getItem("submit.accesstoken");
+        if (!token) {
+            if (callback.notLoggedIn) {
+                callback.notLoggedIn();
+                return;
+            }
+            window.CommonHandler.ajax({
+                url: "/api/id",
+                success: function (fromServer) {
+                    if (callback.loggedIn(fromServer.email));
+                },
+                error:  function( jqXHR , textStatus, errorThrown ) {
+                    if (callback.notLoggedIn) {
+                        callback.notLoggedIn();
+                    }
+                }
+
+            },token)
+        }
     },
-    ajax: function (settings) {
-        var token = window.CommonHandler.readAcccesstoken();
+    ajax: function (settings,token) {
+        token = token || localStorage.getItem("submit.accesstoken");
         if (token) {
             settings.headers = {
                 submittoken: token
