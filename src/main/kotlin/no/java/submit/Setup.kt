@@ -104,4 +104,8 @@ object Setup {
         return readValue("configFileName","default");
     }
 
+    fun mailSubject(): String {
+        return readValue("mailSubject","Your link to javazone submit")
+    }
+
 }

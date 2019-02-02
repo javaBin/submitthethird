@@ -38,7 +38,7 @@ class CreateTokenCommand(val email:String?):Command {
             |</body>
             |</html>
         """.trimMargin()
-        MailSenderService.sendMail(email,"Your link to javazone submit",body)
+        MailSenderService.sendMail(email,Setup.mailSubject(),body)
 
     }
 

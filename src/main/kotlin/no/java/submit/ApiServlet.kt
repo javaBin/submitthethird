@@ -4,12 +4,14 @@ import no.java.submit.commands.*
 import no.java.submit.queries.allTalksForSpeaker
 import no.java.submit.queries.loginEmail
 import no.java.submit.queries.oneGivenTalk
+import org.jsonbuddy.JsonArray
 import org.jsonbuddy.JsonFactory
 import org.jsonbuddy.JsonObject
 import org.jsonbuddy.parse.JsonParser
 import org.jsonbuddy.pojo.PojoMapper
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
+import java.util.stream.Collectors
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -65,7 +67,21 @@ class ApiServlet:HttpServlet() {
     }
 
     private fun reportConfig(): JsonObject {
-        return JsonObject().put("config",Setup.configFileName()).put("time",ZonedDateTime.now().toString())
+        return JsonObject().put("config",Setup.configFileName()).put("time",ZonedDateTime.now().toString()).put("sleepingpillstatus",sleepingPillStatus()).put("email",Setup.mailSenderType().toString())
+    }
+
+    private fun sleepingPillStatus():String {
+
+        val allconfs:JsonArray = try {
+            SleepingPillService.get("${Setup.sleepingPillLocation()}/data/conference").requiredArray("conferences")
+        } catch (e:Exception) {
+            return "Error reading " + e.message
+        }
+        val conference:JsonObject? = allconfs.objectStream().collect(Collectors.toList()).filter { Setup.sleepingPillLocation() == it.stringValue("id").orElse(null) }.firstOrNull()
+        if (conference == null) {
+            return "Connected sleepingpill -> Did not find conference"
+        }
+        return "Ok, conference ${conference.stringValue("name").orElse("noname")}"
     }
 
 
