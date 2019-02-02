@@ -73,11 +73,11 @@ class ApiServlet:HttpServlet() {
     private fun sleepingPillStatus():String {
 
         val allconfs:JsonArray = try {
-            SleepingPillService.get("${Setup.sleepingPillLocation()}/data/conference").requiredArray("conferences")
+            SleepingPillService.get("/data/conference").requiredArray("conferences")
         } catch (e:Exception) {
             return "Error reading " + e.message
         }
-        val conference:JsonObject? = allconfs.objectStream().collect(Collectors.toList()).filter { Setup.sleepingPillLocation() == it.stringValue("id").orElse(null) }.firstOrNull()
+        val conference:JsonObject? = allconfs.objectStream().collect(Collectors.toList()).filter { Setup.sleepingpillConferenceId() == it.stringValue("id").orElse(null) }.firstOrNull()
         if (conference == null) {
             return "Connected sleepingpill -> Did not find conference"
         }
