@@ -18,6 +18,10 @@ window.ShowTalksHandler = {
                 success: self.populateTalks
             });
         });
+        self.$el.find("#addTalkButton").click(function () {
+            window.location.href = "/talkEdit.html";
+        });
+
     },
     populateTalks: function (fromServer) {
         var self = window.ShowTalksHandler;
