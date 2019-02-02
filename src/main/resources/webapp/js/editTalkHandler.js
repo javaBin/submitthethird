@@ -68,6 +68,9 @@ window.EditTalkHandler = {
         self.$el.find("#outline").val(talk.outline);
         self.$el.find("#equipment").val(talk.equipment);
         self.$el.find("#infoToProgramCommittee").val(talk.infoToProgramCommittee);
+        self.$el.find("#suggestedKeywords").val(talk.suggestedKeywords);
+        self.$el.find("#participation").val(talk.participation);
+
         self.$el.find("#addSpeaker").click(self.addSpeaker);
 
 
@@ -151,6 +154,9 @@ window.EditTalkHandler = {
             outline: self.$el.find("#outline").val(),
             infoToProgramCommittee: self.$el.find("#infoToProgramCommittee").val(),
             length: self.$el.find("#length").val(),
+            suggestedKeywords: self.$el.find("#suggestedKeywords").val(),
+            participation: self.$el.find("#participation").val(),
+
             speakers: speakers
         };
         var url;

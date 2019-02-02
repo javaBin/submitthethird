@@ -56,7 +56,7 @@ object Setup {
     }
 
     fun runAsJarFile(): Boolean {
-        return "true".equals(readValue("runAsJarFile","true"))
+        return "true".equals(readValue("runAsJarFile","false"))
     }
 
     fun serverPort(): Int {

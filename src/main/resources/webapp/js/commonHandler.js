@@ -6,21 +6,22 @@ window.CommonHandler = {
         if (!token) {
             if (callback.notLoggedIn) {
                 callback.notLoggedIn();
-                return;
             }
-            window.CommonHandler.ajax({
-                url: "/api/id",
-                success: function (fromServer) {
-                    if (callback.loggedIn(fromServer.email));
-                },
-                error:  function( jqXHR , textStatus, errorThrown ) {
-                    if (callback.notLoggedIn) {
-                        callback.notLoggedIn();
-                    }
-                }
-
-            },token)
+            return;
         }
+        window.CommonHandler.ajax({
+            url: "/api/id",
+            success: function (fromServer) {
+                if (callback.loggedIn(fromServer.email));
+            },
+            error:  function( jqXHR , textStatus, errorThrown ) {
+                if (callback.notLoggedIn) {
+                    callback.notLoggedIn();
+                }
+            }
+
+        },token)
+
     },
     ajax: function (settings,token) {
         token = token || localStorage.getItem("submit.accesstoken");
@@ -38,7 +39,7 @@ window.CommonHandler = {
                 callback(fromServer.email);
             },
             error: function( jqXHR, textStatus, errorThrown ) {
-                window.location.href = "/emailLogin.html";
+                window.location.href = "/";
             }
         });
     },

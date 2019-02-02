@@ -20,7 +20,7 @@ window.IndexHandler = {
             }
         });
 
-        self.$el.find("#loginButton",self.loginButtonClicked)
+        self.$el.find("#loginButton").click(self.loginButtonClicked);
 
     },
     loginButtonClicked: function () {

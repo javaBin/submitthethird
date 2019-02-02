@@ -47,7 +47,9 @@ class Talk(
         val infoToProgramCommittee:String? = null,
         val speakers:List<Speaker>? = null,
         val conferenceId: String? = null,
-        val postedBy:String? = null
+        val postedBy:String? = null,
+        val suggestedKeywords:String? = null,
+        val participation:String? = null
 
 ) {
     @Suppress("unused")
@@ -66,7 +68,10 @@ class Talk(
             outline = readDataValue(talkObject,"outline"),
             infoToProgramCommittee = readDataValue(talkObject,"infoToProgramCommittee"),
             speakers = Speaker.readFromJson(talkObject.arrayValue("speakers").orElse(null)),
-            postedBy = talkObject.stringValue("postedBy").orElse(null)
+            postedBy = talkObject.stringValue("postedBy").orElse(null),
+            suggestedKeywords = talkObject.stringValue("suggestedKeywords").orElse(null),
+            participation = talkObject.stringValue("participation").orElse(null)
+
 
 
     )
@@ -81,9 +86,12 @@ class Talk(
         length?.let {jsonObject.put("length",addToData(it,false))}
         format?.let {jsonObject.put("format",addToData(it.sleepingpillvalue,false))}
         equipment?.let {jsonObject.put("equipment",addToData(it,true))}
-        abstract?.let {jsonObject.put("abstract",addToData(it,true))}
+        abstract?.let {jsonObject.put("abstract",addToData(it,false))}
         outline?.let {jsonObject.put("outline",addToData(it,true))}
-        infoToProgramCommittee?.let {jsonObject.put("infoToProgramCommittee",addToData(it,false))}
+        infoToProgramCommittee?.let {jsonObject.put("infoToProgramCommittee",addToData(it,true))}
+        suggestedKeywords?.let {jsonObject.put("suggestedKeywords",addToData(it,true))}
+        participation?.let {jsonObject.put("participation",addToData(it,true))}
+
         return jsonObject
     }
 

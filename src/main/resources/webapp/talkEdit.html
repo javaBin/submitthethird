@@ -11,11 +11,27 @@
     </div>
     <main id="editTalkMain">
         <div class="seperator"></div>
+        <h1>Edit your talk</h1>
+        <p>JavaZone takes place in Oslo, Norway, on September 11th-12th 2019, plus a day of workshops on the 10th of September, and we are happy that you want to be a part of it. Let's get you started!</p>
+
+        <h3>February 11th – April 22nd - Enter your submissions</h3>
+        <p>Submit your talk by filling out the filling out the fieds below. We receive hundreds of submissions and will therefore be evaluating submissions as they arrive. In other words, submit early to increase your chances of being accepted! Note that you can still update your talk after submisssions, but please do not rewrite your entire proposal after you have sent it to us.</p>
+
+        <h3>April 22nd - Submission deadline</h3>
+        <p>This is the last day to submit your proposal to the program committee. No new submissions will be accepted after this date!</p>
+
+        <h3>July 1st - Get feedback</h3>
+        <p>By this day, at the latest, all speakers are informed about whether their talk was selected or not. Fingers crossed!</p>
+
+        <h3>August 1st - Deadline for refund application</h3>
+        <p>If you are traveling to Oslo without receiving coverage by your employer, you can have your expenses covered by us. In order to plan our budget, we need you to apply for coverage. You will receive information on the process in the email that confirms that your submission was accepted. Please note that only presentation speakers and workshop facilitators are eligible for such coverage.</p>
+
+
         <h2>Title</h2>
-        <p>Select an expressive and snappy title that captures the content of your talk without being too long. Remember that the title must be attractive and should make people curious.</p>
+        <p>Name your lightning talk, presentation or workshop in a way that draws attention to your submission while also capturing its content. Many participants will use this title to decide if they even read your abstract, so we recommend you to think a few minutes about this name.</p>
         <input class="input" type="text" size="80" placeholder="A short and snappy title" id="title">
         <h2>Language</h2>
-        <p>Which language will you be holding the talk in? It is permitted to use English in your slides, even though you may be talking in Norwegian, but you should write the rest of the abstract in the language you will speak in. We generally recommend that you hold the talk in the language you are most comfortable with.</p>
+        <p>In which language will you be holding the talk? It is permitted to use English in your slides, even though you may be speaking in Norwegian, but you should fill out this form in the language you will speak in. We generally recommend that you hold the talk in the language you are most comfortable with, as we do not favor one language over the other.</p>
         <div>
             <input type="radio" name="language" value="NORWEGIAN" id="languageno">
             <label for="languageno">Norwegian</label>
@@ -26,8 +42,13 @@
         </div>
         <!-- $("input[name='language']:checked").val();-->
         <h2>Description</h2>
-        <p>Give a concise description of the content and goals of your talk. Try not to exceed 300 words, as shorter and more to-the-point descriptions are more likely to be read by the participants.</p>
+        <p>Give a concise description of the content and goals of your talk and what audience this presentation or workshop is for. Try not to exceed 300 words, as shorter and more to-the-point descriptions are more likely to be read by participants.</p>
         <textarea class="input" id="abstract" rows="5" cols="80" style="resize: none"></textarea>
+
+        <h2>Your participation (not public)</h2>
+        <p>We consider any speaker as a participant of our conference, and we hope that you can stay for both conference days. There is much to see and do during JavaZone, we promise that it will be a good investment of your time! If you cannot participate on both days, please let us know, such that we can consider this when creating the program. To simplify our planning, we can unfortunately not consider time preferences on a given day.</p>
+        <input class="input" type="text" size="100" placeholder="Indicate here if you can not stay for both conference days" id="participation">
+
         <h2>Expected audience</h2>
         <p>Who should attend this session? How will the participants benefit from attending? What experience (if any) should the audience have to get the most value out of your talk?</p>
         <textarea class="input" id="intendedAudience" rows="5" cols="80" style="resize: none"></textarea>
@@ -48,15 +69,27 @@
         <h2>Presentation Length</h2>
         <p>Please select the length of the presentation (in minutes) <span id="lengthDescription"></span></p>
         <select class="custom-select" id="length"></select>
+
+        <h2>Suggested keywords</h2>
+        <p>Suggest up to five keywords that describe your talk. Note that we only use these keywords as an orientation and often edit them to better fit into our published program.</p>
+        <input type="text" class="input" id="suggestedKeywords" size="80">
+
         <h2>Outline (not public)</h2>
         <p>The information will be used by the Program Committee to review the details of your talk. The outline should be a rough agenda for the talk, with a short description for each section, and with a rough estimate of the time spent on each. Omitting this section will reduce the chances of your submission being accepted.</p>
         <textarea class="input" id="outline" rows="5" cols="80" style="resize: none"></textarea>
+
         <h2>Equipment (not public)</h2>
         <p>Please specify any additional special equipment you may need. Note that all get access to WiFi and a projector.</p>
         <textarea class="input" id="equipment" rows="5" cols="80" style="resize: none"></textarea>
+
         <h2>Information for the program commitee (not public)</h2>
-        <p>Please include any information relevant to the Program Committee. Here you can write a few words about your motivation for speaking at JavaZone, and optionally include links to videos and slides from previous speaker engagements, or other links that tell us about you (e.g. your GitHub profile).</p>
+        <p>Please include any information relevant to the program committee that you do not want to include in your public presentation profile. For example, you can give us your motivation for speaking at JavaZone, include links to videos and slides from previous speaker engagements or any other relevant information for choosing your talk.</p>
         <textarea class="input" id="infoToProgramCommittee" rows="5" cols="80" style="resize: none"></textarea>
+        <h2>Info regarding filming of your talk</h2>
+        <p>All talks at JavaZone are filmed, live-streamed and published for free at Vimeo after the conference. Should you have any reservations about this, let the program committee know in the field above. This might affect your chance of getting selected, but if you have a good reason please let us know.</p>
+        <h2>Who are you?</h2>
+        <p>Please give us a little bit of information about yourself. You can also add any additional speakers here. All of you will be shown in the program.</p>
+
         <div id="speakerList"></div>
         <div id="addSpeakerSection">
         <h2>Another speaker ?</h2>
@@ -82,7 +115,7 @@
                 <input type="text" class="speakertwitter input">
                 <h3>Your Norwegian Postal Code (optional - not public)</h3>
                 <p>Will let us contact you about future speaking opportunities in local javaBin user groups :)</p>
-                <input type="text" class="speakerpostcode input">
+                <input type="text" class="speakerpostcode input" placeholder="Norwegian postcode">
                 <div class="removeSpeakerSection">
                     <h3>Remove speaker</h3>
                     <p><button class="removeSpeaker">Remove this speaker</button> </p>
