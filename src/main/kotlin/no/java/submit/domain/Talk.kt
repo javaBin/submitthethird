@@ -69,8 +69,8 @@ class Talk(
             infoToProgramCommittee = readDataValue(talkObject,"infoToProgramCommittee"),
             speakers = Speaker.readFromJson(talkObject.arrayValue("speakers").orElse(null)),
             postedBy = talkObject.stringValue("postedBy").orElse(null),
-            suggestedKeywords = talkObject.stringValue("suggestedKeywords").orElse(null),
-            participation = talkObject.stringValue("participation").orElse(null)
+            suggestedKeywords = readDataValue(talkObject,"suggestedKeywords"),
+            participation = readDataValue(talkObject,"participation")
 
 
 
@@ -148,11 +148,11 @@ class Speaker(
         return jsonObject
     }
 
-    fun checkValidOnCreate() {
-        if (name == null) {
+    fun checkValid() {
+        if (name?.trim()?.isEmpty() != false) {
             throw FunctionalError("Need a name for speaker")
         }
-        if (email == null) {
+        if (email?.trim()?.isEmpty() != false) {
             throw FunctionalError("Need an email for speaker")
         }
     }

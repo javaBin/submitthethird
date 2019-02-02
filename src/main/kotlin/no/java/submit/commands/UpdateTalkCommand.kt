@@ -25,11 +25,15 @@ class UpdateTalkCommand(val talk:Talk?):Command {
             throw FunctionalError("You cannot edit a talk from a previous year");
         }
 
+        CreateTalkCommand.validateRequiredFields(talk)
+
         val updateTalkPayload = JsonObject()
         updateTalkPayload.put("id",talk.id)
         updateTalkPayload.put("sessionId",talk.id)
         updateTalkPayload.put("postedBy",callIdentification.callerEmail)
         updateTalkPayload.put("conferenceId", Setup.sleepingpillConferenceId())
+        updateTalkPayload.put("data",talk.spDataObject())
+
         val spdataObject = talk.spDataObject()
         if (!spdataObject.isEmpty) {
             updateTalkPayload.put("data",spdataObject)
