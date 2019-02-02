@@ -71,10 +71,9 @@ object Setup {
         return readValue("serverEncryptPassword","bullshit")
     }
 
-    private const val millisInOneDay:Long = 24L*60L*60L*1000L
 
-    fun millisValidToken():Long {
-        return readValue("millisValidToken", millisInOneDay.toString()).toLong()
+    fun minutesValidToken():Long {
+        return readValue("minutesValidToken", "144000").toLong()
     }
 
     fun sleepingpillConferenceId():String {

@@ -27,7 +27,8 @@ private fun readEmail(req: HttpServletRequest): String? {
     } catch (e:Exception) {
         return null
     }
-    if (System.currentTimeMillis() > timestamp+Setup.millisValidToken()) {
+    val millisValid:Long = Setup.minutesValidToken()*60_000L
+    if (System.currentTimeMillis() > timestamp+millisValid) {
         return null
     }
     val email:String = decrypted.substring(0,ind)
