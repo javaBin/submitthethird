@@ -12,6 +12,33 @@ h2 {
     color: #F05350;
 }
 
+.talkForYear {
+  list-style-type: none;
+}
+
+.talkLink {
+  color: white;
+  text-decoration: none;
+  padding: 0.3rem 0.3rem 0.2rem 0.3rem;
+  border-radius: 3px;
+  border: 2px solid transparent;
+}
+
+.talkLink:hover {
+  color: black;
+  background: #FCAF1A;
+}
+
+span {
+  font-size: 15pt;
+  line-height: 160%;
+}
+
+/* .talkLink > span{
+  text-decoration: none;
+  color: white;
+} */
+
 #editTalkMain {
     padding: 0 20rem 5rem 20rem;
 }
