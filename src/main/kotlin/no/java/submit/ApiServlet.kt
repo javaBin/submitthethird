@@ -47,7 +47,6 @@ class ApiServlet:HttpServlet() {
             return
         }
         resp.contentType = "application/json"
-        resp.addHeader("Strict-Transport-Security","max-age=60")
         responsobj.toJson(resp.writer)
     }
 

@@ -8,6 +8,9 @@ import java.io.File
 import org.eclipse.jetty.server.ServerConnector
 import org.eclipse.jetty.server.HttpConfiguration
 import org.eclipse.jetty.server.HttpConnectionFactory
+import org.eclipse.jetty.servlet.FilterHolder
+import java.util.*
+import javax.servlet.DispatcherType
 
 
 var setupFile:String? = null
@@ -67,5 +70,9 @@ private fun createHandler(): WebAppContext {
     }
 
     webAppContext.addServlet(ServletHolder(ApiServlet()), "/api/*")
+
+    if (Setup.forceServerHttps()) {
+        webAppContext.addFilter(FilterHolder(AddStrictSecurityHeaderFilter()), "*", EnumSet.of(DispatcherType.REQUEST))
+    }
     return webAppContext;
 }
