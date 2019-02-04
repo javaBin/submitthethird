@@ -38,7 +38,7 @@ class SendGridMailSender:MailSender {
             request.setMethod(Method.POST)
             request.setEndpoint("mail/send")
             request.setBody(mail.build())
-            val response = sg.api(request)
+            sg.api(request)
         } catch (ex: IOException) {
             throw RuntimeException(ex)
         }
