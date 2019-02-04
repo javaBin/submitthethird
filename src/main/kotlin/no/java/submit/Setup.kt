@@ -108,4 +108,8 @@ object Setup {
         return readValue("mailSubject","Your link to javazone submit")
     }
 
+    fun forceServerHttps(): Boolean {
+        return "true".equals(readValue("forceServerHttps","false"));
+    }
+
 }
