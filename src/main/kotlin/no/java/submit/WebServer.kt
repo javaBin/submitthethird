@@ -24,7 +24,7 @@ fun main(args: Array<String>) {
     }
     val server = Server(Setup.serverPort())
 
-    setuphttps(server);
+    //setuphttps(server);
 
     server.handler = createHandler()
     server.start();
