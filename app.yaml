@@ -2,3 +2,7 @@ runtime: custom
 env: flex
 runtime_config:
   jdk: openjdk8
+handlers:
+- url: /
+  secure: always
+  redirect_http_response_code: 301
