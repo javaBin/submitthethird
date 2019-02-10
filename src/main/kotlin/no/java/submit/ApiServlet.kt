@@ -67,7 +67,15 @@ class ApiServlet:HttpServlet() {
     }
 
     private fun reportConfig(): JsonObject {
-        return JsonObject().put("config",Setup.configFileName()).put("time",ZonedDateTime.now().toString()).put("sleepingpillstatus",sleepingPillStatus()).put("email",Setup.mailSenderType().toString())
+        return JsonObject().put("config",Setup.configFileName()).put("time",ZonedDateTime.now().toString()).put("sleepingpillstatus",sleepingPillStatus()).put("email",Setup.mailSenderType().toString()).put("properties",readSystemProps())
+    }
+
+    private fun readSystemProps(): JsonObject {
+        val result = JsonObject()
+        for (key in System.getProperties().keys) {
+            result.put(key.toString(),System.getProperty(key.toString()))
+        }
+        return result
     }
 
     private fun sleepingPillStatus():String {

@@ -2,3 +2,5 @@ runtime: custom
 env: flex
 runtime_config:
   jdk: openjdk8
+env_variables:
+  JAVA_OPTS: -Dfile.encoding=UTF-8
