@@ -5,6 +5,7 @@ import org.jsonbuddy.parse.JsonParser
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
+import java.nio.charset.Charset
 import javax.servlet.http.HttpServletResponse
 
 interface SleepingPillSender {
@@ -22,12 +23,12 @@ class LiveSleepingPillSender:SleepingPillSender {
     private val sleepingPillLocation = Setup.sleepingPillLocation()
     override fun post(path: String, httpPostMethod: HttpPostMethod,payload: JsonObject): JsonObject {
         val urlConnection = openConnection(path)
-        urlConnection.setRequestProperty("content-type","application/json")
+        urlConnection.setRequestProperty("content-type","application/json;charset=UTF-8")
         urlConnection.requestMethod = httpPostMethod.toString()
 
         urlConnection.doOutput = true
 
-        PrintWriter(OutputStreamWriter(urlConnection.outputStream)).use {
+        PrintWriter(OutputStreamWriter(urlConnection.outputStream, Charset.forName("UTF-8"))).use {
             payload.toJson(it)
         }
 
@@ -61,7 +62,7 @@ class LiveSleepingPillSender:SleepingPillSender {
 
     @Throws(IOException::class)
     fun toString(inputStream: InputStream): String {
-        BufferedReader(InputStreamReader(inputStream, "utf-8")).use { reader ->
+        BufferedReader(InputStreamReader(inputStream, "UTF-8")).use { reader ->
             val result = StringBuilder()
             while (true) {
                 val c: Int = reader.read()

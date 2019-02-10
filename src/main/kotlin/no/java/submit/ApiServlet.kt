@@ -46,7 +46,7 @@ class ApiServlet:HttpServlet() {
             resp.sendError(e.errorType,e.errormessage)
             return
         }
-        resp.contentType = "application/json"
+        resp.contentType = "application/json;charset=UTF-8"
         responsobj.toJson(resp.writer)
     }
 
