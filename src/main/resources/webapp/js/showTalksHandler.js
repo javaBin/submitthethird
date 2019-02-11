@@ -12,7 +12,7 @@ window.ShowTalksHandler = {
         window.CommonHandler.checkLoggedIn(function(email) {
             self.conferenceTemplate = self.$el.find("#conferenceTemplate").html();
             self.talkTemplate = self.$el.find("#talkTemplate").html();
-            self.$el.find("#e>mail").append(email);
+            self.$el.find("#email").append(email);
             window.CommonHandler.ajax({
                 url: "/api/all",
                 success: self.populateTalks
