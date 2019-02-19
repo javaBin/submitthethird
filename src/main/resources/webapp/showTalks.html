@@ -6,28 +6,28 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<main id="showTalkMain">
     <div class="banner">
         <img src="https://storage.googleapis.com/javazone-assets/images/2018/180912_JavaZone_0145.jpg" />
     </div>
-    <div class="seperator"></div>
-    <h1>Hello</h1>
-    <p>You are registered with email <span id="email"></span></p>
-    <button id="addTalkButton">Submit a new talk</button>
-    <h3>Here are your submitted talks:</h3>
-    <div id="talkList">
+    <main id="showTalkMain">
+        <div class="seperator"></div>
+        <h1>Hello</h1>
+        <p>You are registered with email <span id="email"></span></p>
+        <button id="addTalkButton">Submit a new talk</button>
+        <h3>Here are your submitted talks:</h3>
+        <div id="talkList">
 
-    </div>
-    <script type="text/html" id="conferenceTemplate">
-        <div>
-            <h2 class="conferenceName"></h2>
-            <ul class="talkForYear"></ul>
         </div>
-    </script>
-    <script type="text/html" id="talkTemplate">
-        <li><a class="talkLink"><span class="talkName"></span></a></li>
-    </script>
-</main>
+        <script type="text/html" id="conferenceTemplate">
+            <div>
+                <h2 class="conferenceName"></h2>
+                <ul class="talkForYear"></ul>
+            </div>
+        </script>
+        <script type="text/html" id="talkTemplate">
+            <li><a class="talkLink"><span class="talkName"></span></a></li>
+        </script>
+    </main>
 
 <script src="/js/lib/jquery331.js"></script>
 <script src="/js/commonHandler.js"></script>
