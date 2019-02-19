@@ -2,7 +2,6 @@
 
 $(function () {
     window.EmailLoginHandler.init();
-
 });
 
 window.EmailLoginHandler= {
