@@ -43,7 +43,8 @@ window.IndexHandler = {
                     $message.append(fromServer.errormessage);
                     return;
                 }
-                $message.append("An email has been sent to you. Please check your mail")
+                $message.append("An email has been sent to you. Please check your mail.")
+                self.$el.find(".loginForm").hide()
             }
         })
     }
