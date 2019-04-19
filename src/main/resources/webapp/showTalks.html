@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Submit</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=20190419">
 </head>
 <body>
     <div class="banner">
@@ -13,7 +13,12 @@
         <div class="seperator"></div>
         <h1>Hello</h1>
         <p>You are registered with email <span id="email"></span></p>
+        <div id="closedSection" style="display: none">
+            <p class="lateText">Call for speakers is now closed. You can only submit a new talk if you have gotten a password from the program committee</p>
+            <input class="input" type="text" size="40" placeholder="Special invite password" id="password">
+        </div>
         <button id="addTalkButton">Submit a new talk</button>
+        <p class="errorText" id="addTalkError" style="display: none"></p>
         <h3>Here are your submitted talks:</h3>
         <div id="talkList">
 
@@ -30,7 +35,7 @@
     </main>
 
 <script src="/js/lib/jquery331.js"></script>
-<script src="/js/commonHandler.js"></script>
-<script src="/js/showTalksHandler.js"></script>
+<script src="/js/commonHandler.js?v=20190419"></script>
+<script src="/js/showTalksHandler.js?v=20190419"></script>
 </body>
 </html>

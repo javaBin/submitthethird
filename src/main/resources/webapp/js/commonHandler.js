@@ -35,9 +35,7 @@ window.CommonHandler = {
     checkLoggedIn: function(callback) {
         window.CommonHandler.ajax({
             url:"/api/id",
-            success: function (fromServer) {
-                callback(fromServer.email);
-            },
+            success: callback,
             error: function( jqXHR, textStatus, errorThrown ) {
                 window.location.href = "/";
             }

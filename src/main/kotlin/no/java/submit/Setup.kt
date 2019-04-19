@@ -1,6 +1,7 @@
 package no.java.submit
 
 import java.io.File
+import java.time.LocalDateTime
 
 object Setup {
     private val setupData:Map<String,String>
@@ -110,6 +111,14 @@ object Setup {
 
     fun forceServerHttps(): Boolean {
         return "true".equals(readValue("forceServerHttps","false"));
+    }
+
+    fun closeTime():LocalDateTime? {
+        val dateStr = readValue("closeTime","null")
+        if (dateStr == "null") {
+            return null
+        }
+        return LocalDateTime.parse(dateStr)
     }
 
 }

@@ -9,10 +9,13 @@ window.ShowTalksHandler = {
     init: function ($el) {
         var self = window.ShowTalksHandler;
         self.$el = $el;
-        window.CommonHandler.checkLoggedIn(function(email) {
+        window.CommonHandler.checkLoggedIn(function(fromServer) {
             self.conferenceTemplate = self.$el.find("#conferenceTemplate").html();
             self.talkTemplate = self.$el.find("#talkTemplate").html();
-            self.$el.find("#email").append(email);
+            self.$el.find("#email").append(fromServer.email);
+            if (fromServer.isClosed) {
+                self.$el.find("#closedSection").show();
+            }
             window.CommonHandler.ajax({
                 url: "/api/all",
                 success: self.populateTalks

@@ -6,6 +6,7 @@ import no.java.submit.RequestError
 import no.java.submit.SleepingPillService
 import no.java.submit.domain.Conference
 import no.java.submit.domain.Speaker
+import no.java.submit.domain.SubmissionsClosedService
 import no.java.submit.domain.Talk
 import org.jsonbuddy.JsonArray
 import org.jsonbuddy.JsonObject
@@ -58,5 +59,5 @@ fun loginEmail(callIdentification: CallIdentification):JsonObject {
     if (callIdentification.callerEmail == null) {
         throw RequestError(HttpServletResponse.SC_UNAUTHORIZED,"Missing token")
     }
-    return JsonObject().put("email",callIdentification.callerEmail)
+    return JsonObject().put("email",callIdentification.callerEmail).put("isClosed",SubmissionsClosedService.isClosed())
 }

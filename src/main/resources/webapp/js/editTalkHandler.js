@@ -28,7 +28,7 @@ window.EditTalkHandler = {
     init: function ($el) {
         var self = window.EditTalkHandler;
         self.$el = $el;
-        window.CommonHandler.checkLoggedIn(function(email) {
+        window.CommonHandler.checkLoggedIn(function(callback) {
             self.speakerTemplate = self.$el.find("#speakertemplate").html();
             self.$el.find("#submitTalk").click(self.submitTalk);
             self.$el.find('input[name="format"]').change(function () {
