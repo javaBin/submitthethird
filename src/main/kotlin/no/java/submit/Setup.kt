@@ -121,4 +121,8 @@ object Setup {
         return LocalDateTime.parse(dateStr)
     }
 
+    fun lateSubmitPassword():String {
+        return readValue("lateSubmitPassword","secret")
+    }
+
 }

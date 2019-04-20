@@ -1,20 +1,24 @@
 package no.java.submit.commands
 
 import no.java.submit.*
+import no.java.submit.domain.SubmissionsClosedService
 import no.java.submit.domain.Talk
 import org.jsonbuddy.JsonArray
 import org.jsonbuddy.JsonObject
 import javax.servlet.http.HttpServletResponse
 
-class CreateTalkCommand(val talk: Talk?):Command {
+class CreateTalkCommand(val talk: Talk?,val submitPassword:String?):Command {
     @Suppress("unused")
-    private constructor():this(null)
+    private constructor():this(null,null)
 
     override fun doStuff(callIdentification: CallIdentification): JsonObject {
         if (callIdentification.callerEmail == null) {
             throw RequestError(HttpServletResponse.SC_UNAUTHORIZED,"No token")
         }
         if (talk == null) {
+            throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Missing talkobj")
+        }
+        if (!SubmissionsClosedService.okToSubmit(submitPassword)) {
             throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Missing talkobj")
         }
         validateRequiredFields(talk)

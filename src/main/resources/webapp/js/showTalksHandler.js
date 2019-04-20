@@ -22,7 +22,25 @@ window.ShowTalksHandler = {
             });
         });
         self.$el.find("#addTalkButton").click(function () {
-            window.location.href = "/talkEdit.html";
+            var payload = {
+                password: self.$el.find("#password").val()
+            };
+            window.CommonHandler.ajax({
+                url: "/api/checkLatePassword",
+                data: JSON.stringify(payload),
+                method:"POST",
+                success: function (fromServer) {
+                    if (fromServer.status === "ok") {
+                        if (fromServer.password) {
+                            localStorage.setItem("submit.submitpassword",fromServer.password);
+                        }
+                        window.location.href = "/talkEdit.html";
+                        return;
+                    }
+                    self.$el.find("#addTalkError").show();
+                }
+
+            })
         });
 
     },

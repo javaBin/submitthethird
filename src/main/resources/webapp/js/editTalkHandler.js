@@ -160,12 +160,16 @@ window.EditTalkHandler = {
             speakers: speakers
         };
         var url;
+        var payload = {talk: talkToSubmit};
         if (self.talkId) {
             url = "/api/updateTalk";
         } else {
             url = "api/createTalk";
+            var submitPassword = localStorage.getItem("submit.submitpassword");
+            if (submitPassword) {
+                payload.submitPassword = submitPassword;
+            }
         }
-        var payload = {talk: talkToSubmit};
         console.log(payload);
         var $errormessage=self.$el.find("#errormessage");
         $errormessage.empty();

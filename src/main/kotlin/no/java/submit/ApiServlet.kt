@@ -1,6 +1,7 @@
 package no.java.submit
 
 import no.java.submit.commands.*
+import no.java.submit.domain.SubmissionsClosedService
 import no.java.submit.queries.allTalksForSpeaker
 import no.java.submit.queries.loginEmail
 import no.java.submit.queries.oneGivenTalk
@@ -27,6 +28,7 @@ class ApiServlet:HttpServlet() {
             "/createToken" -> CreateTokenCommand::class
             "/createTalk" -> CreateTalkCommand::class
             "/updateTalk" -> UpdateTalkCommand::class
+            "/checkLatePassword" -> CheckLatePasswordCommand::class
             else-> IllegalPathCommand::class
         }
         val payload:JsonObject = req.inputStream.use {JsonParser.parseToObject(it)}
@@ -67,7 +69,15 @@ class ApiServlet:HttpServlet() {
     }
 
     private fun reportConfig(): JsonObject {
-        return JsonObject().put("config",Setup.configFileName()).put("time",ZonedDateTime.now().toString()).put("sleepingpillstatus",sleepingPillStatus()).put("email",Setup.mailSenderType().toString()).put("properties",readSystemProps())
+        return JsonObject()
+                .put("config",Setup.configFileName())
+                .put("time",ZonedDateTime.now().toString())
+                .put("localtime",LocalDateTime.now().toString())
+                .put("sleepingpillstatus",sleepingPillStatus())
+                .put("email",Setup.mailSenderType().toString())
+                .put("properties",readSystemProps())
+                .put("closingTime",Setup.closeTime()?.toString())
+                .put("isClosed",SubmissionsClosedService.isClosed())
     }
 
     private fun readSystemProps(): JsonObject {

@@ -8,4 +8,11 @@ object SubmissionsClosedService {
         val closeTime:LocalDateTime = Setup.closeTime()?:return false
         return LocalDateTime.now().isAfter(closeTime)
     }
+
+    fun okToSubmit(password:String?):Boolean {
+        if (!isClosed()) {
+            return true
+        }
+        return (Setup.lateSubmitPassword() == password)
+    }
 }
