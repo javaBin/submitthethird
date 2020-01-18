@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: submitthethird-prod
+    environment: submitthethird-prod-env
 environment-defaults:
   cakeredux-prod:
     branch: null
