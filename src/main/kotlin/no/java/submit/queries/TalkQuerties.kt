@@ -40,19 +40,19 @@ fun oneGivenTalk(callIdentification: CallIdentification):JsonObject {
         throw RequestError(HttpServletResponse.SC_UNAUTHORIZED,"Missing token")
     }
     val talkid = callIdentification.pathInfo!!.substring("/talk/".length)
-    val talk = oneTalkFromSleepingpill(talkid, callIdentification.callerEmail)
+    val talk:Talk = oneTalkFromSleepingpill(talkid, callIdentification.callerEmail).first
 
     return JsonGenerator.generate(talk) as JsonObject
 
 }
 
-fun oneTalkFromSleepingpill(talkid: String, callerEmail: String): Talk {
+fun oneTalkFromSleepingpill(talkid: String, callerEmail: String): Pair<Talk,JsonObject> {
     val jsonObject = SleepingPillService.get("/data/session/${URLEncoder.encode(talkid, "UTF-8")}")
     val talk = Talk(jsonObject)
     if (!checkAccessToTalk(talk, callerEmail)) {
         throw RequestError(HttpServletResponse.SC_FORBIDDEN, "Email not assosiated with this talk")
     }
-    return talk
+    return Pair(talk,jsonObject)
 }
 
 fun loginEmail(callIdentification: CallIdentification):JsonObject {

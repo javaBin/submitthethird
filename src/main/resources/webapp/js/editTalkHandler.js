@@ -60,6 +60,7 @@ window.EditTalkHandler = {
         self.updateLengthOptions(talk.format);
 
         self.$el.find("input[name=language][value=" + talk.language + "]").prop("checked",true);
+        self.$el.find("input[name=confPref][value=" + talk.conferencePreference + "]").prop("checked",true);
 
         self.$el.find("#title").val(talk.title);
         self.$el.find("#abstract").val(talk.abstract);
@@ -156,6 +157,7 @@ window.EditTalkHandler = {
             length: self.$el.find("#length").val(),
             suggestedKeywords: self.$el.find("#suggestedKeywords").val(),
             participation: self.$el.find("#participation").val(),
+            conferencePreference:self.$el.find("input[name='confPref']:checked").val(),
 
             speakers: speakers
         };

@@ -28,7 +28,7 @@ class CreateTalkCommand(val talk: Talk?,val submitPassword:String?):Command {
         val createTalkPayload = JsonObject()
             .put("postedBy",callIdentification.callerEmail)
             .put("conferenceId",Setup.sleepingpillConferenceId())
-            .put("data",talk.spDataObject())
+            .put("data",talk.spDataObject(null))
             .put("speakers",JsonArray.fromNodeList(talk.speakers!!.map { it.spSpeakerObject() }))
             .put("status","SUBMITTED")
 
