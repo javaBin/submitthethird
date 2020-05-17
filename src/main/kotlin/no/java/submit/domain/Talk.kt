@@ -35,7 +35,7 @@ private fun readDataValue(jsonObject: JsonObject,key:String):String? {
     return dataObject.objectValue(key).orElse(null)?.stringValue("value")?.orElse(null)
 }
 
-private fun readTags(talkObject: JsonObject?):List<JsonObject> {
+fun readTagsFromTalkObj(talkObject: JsonObject?):List<JsonObject> {
     if (talkObject == null) return emptyList()
     val dataObject = talkObject.objectValue("data").orElse(null)?:return emptyList();
     val tagobjects:List<JsonObject> = dataObject.objectValue("tagswithauthor").orElse(JsonObject()).arrayValue("value").orElse(JsonArray()).objects { it }
@@ -44,7 +44,7 @@ private fun readTags(talkObject: JsonObject?):List<JsonObject> {
 }
 
 enum class ConferencePreference(val tags:Set<String>) {
-    ONLYIRL(setOf("jzirl")),ONLYVR(setOf("jzvr")),BOTHIRLVR(ONLYIRL.tags.union(ONLYVR.tags));
+    ONLYIRL(setOf("jzirl")),ONLYVR(setOf("jzvr")),BOTHIRLVR(ONLYIRL.tags.union(ONLYVR.tags)),NOCONF(setOf("jznc"));
 
 
 
@@ -55,6 +55,8 @@ enum class ConferencePreference(val tags:Set<String>) {
             tags.containsAll(ONLYIRL.tags) -> ONLYIRL
             else -> null
         }
+
+        fun fromValue(stringVal:String?):ConferencePreference? = values().filter { it.toString() == stringVal }.firstOrNull()
     }
 }
 
@@ -96,7 +98,7 @@ class Talk(
             postedBy = talkObject.stringValue("postedBy").orElse(null),
             suggestedKeywords = readDataValue(talkObject,"suggestedKeywords"),
             participation = readDataValue(talkObject,"participation"),
-            conferencePreference =  ConferencePreference.fromTagSet(readTags(talkObject).map { it.stringValue("tag").orElse(null) }.filterNotNull().toSet())
+            conferencePreference =  ConferencePreference.fromTagSet(readTagsFromTalkObj(talkObject).map { it.stringValue("tag").orElse(null) }.filterNotNull().toSet())
     )
 
 
@@ -115,7 +117,7 @@ class Talk(
         suggestedKeywords?.let {jsonObject.put("suggestedKeywords",addToData(it,true))}
         participation?.let {jsonObject.put("participation",addToData(it,true))}
         if (conferencePreference != null) {
-            val currentTqgs = readTags(currentSleepingPillObject)
+            val currentTqgs = readTagsFromTalkObj(currentSleepingPillObject)
             val newTags = currentTqgs.filter { it.stringValue("tag").isPresent && !ConferencePreference.BOTHIRLVR.tags.contains(it.stringValue("tag").get()) }.toMutableList()
             conferencePreference.tags.forEach{newTags.add(JsonObject().put("tag",it).put("author","Submitit"))}
             jsonObject.put("tagswithauthor", JsonFactory.jsonObject().put("value", JsonArray.fromNodeList(newTags)).put("privateData", true))

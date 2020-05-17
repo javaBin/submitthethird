@@ -29,6 +29,7 @@ class ApiServlet:HttpServlet() {
             "/createTalk" -> CreateTalkCommand::class
             "/updateTalk" -> UpdateTalkCommand::class
             "/checkLatePassword" -> CheckLatePasswordCommand::class
+            "/conferenceConfirm" -> ConferenceConfirmationCommand::class
             else-> IllegalPathCommand::class
         }
         val payload:JsonObject = req.inputStream.use {JsonParser.parseToObject(it)}
