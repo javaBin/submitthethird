@@ -26,7 +26,6 @@ class ConferenceConfirmationCommand(val talkid:String?=null,val confirmOption:St
         val updateTalkPayload = JsonObject()
         updateTalkPayload.put("id",talk.id)
         updateTalkPayload.put("sessionId",talk.id)
-        updateTalkPayload.put("postedBy",callIdentification.callerEmail)
         updateTalkPayload.put("conferenceId", Setup.sleepingpillConferenceId())
 
 

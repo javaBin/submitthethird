@@ -53,6 +53,7 @@ enum class ConferencePreference(val tags:Set<String>) {
             tags.containsAll(BOTHIRLVR.tags) -> BOTHIRLVR
             tags.containsAll(ONLYVR.tags) -> ONLYVR
             tags.containsAll(ONLYIRL.tags) -> ONLYIRL
+            tags.containsAll(NOCONF.tags) -> NOCONF
             else -> null
         }
 
