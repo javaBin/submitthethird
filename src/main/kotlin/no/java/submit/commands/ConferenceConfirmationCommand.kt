@@ -1,7 +1,6 @@
 package no.java.submit.commands
 
 import no.java.submit.*
-import no.java.submit.domain.ConferencePreference
 import no.java.submit.domain.Talk
 import no.java.submit.domain.readTagsFromTalkObj
 import org.jsonbuddy.JsonArray
@@ -15,13 +14,9 @@ class ConferenceConfirmationCommand(val talkid:String?=null,val confirmOption:St
         if (talkid == null) {
             throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter talkid")
         }
-        val conferencePreference:ConferencePreference = ConferencePreference.fromValue(confirmOption)?:throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter confirmOption")
         val currentSleepingPillObject = SleepingPillService.get("/data/session/${URLEncoder.encode(talkid, "UTF-8")}")
         val talk = Talk(currentSleepingPillObject)
 
-        if (talk.conferencePreference != null) {
-            throw FunctionalError("Conference preference is already reported. No need to do it again")
-        }
 
         val updateTalkPayload = JsonObject()
         updateTalkPayload.put("id",talk.id)
@@ -30,7 +25,6 @@ class ConferenceConfirmationCommand(val talkid:String?=null,val confirmOption:St
 
 
         val currentTqgs = readTagsFromTalkObj(currentSleepingPillObject).toMutableList()
-        conferencePreference.tags.forEach{currentTqgs.add(JsonObject().put("tag",it).put("author","Submitit"))}
         val dataObject:JsonObject = JsonObject()
         dataObject.put("tagswithauthor", JsonFactory.jsonObject().put("value", JsonArray.fromNodeList(currentTqgs)).put("privateData", true))
         updateTalkPayload.put("data",dataObject)

@@ -43,23 +43,6 @@ fun readTagsFromTalkObj(talkObject: JsonObject?):List<JsonObject> {
     //return tagobjects.map { it.stringValue("tag").orElse(null) }.filterNotNull().toSet()
 }
 
-enum class ConferencePreference(val tags:Set<String>) {
-    ONLYIRL(setOf("jzirl")),ONLYVR(setOf("jzvr")),BOTHIRLVR(ONLYIRL.tags.union(ONLYVR.tags)),NOCONF(setOf("jznc"));
-
-
-
-    companion object {
-        fun fromTagSet(tags:Set<String>):ConferencePreference? = when {
-            tags.containsAll(BOTHIRLVR.tags) -> BOTHIRLVR
-            tags.containsAll(ONLYVR.tags) -> ONLYVR
-            tags.containsAll(ONLYIRL.tags) -> ONLYIRL
-            tags.containsAll(NOCONF.tags) -> NOCONF
-            else -> null
-        }
-
-        fun fromValue(stringVal:String?):ConferencePreference? = values().filter { it.toString() == stringVal }.firstOrNull()
-    }
-}
 
 class Talk(
         val id:String? = null,
@@ -76,9 +59,7 @@ class Talk(
         val conferenceId: String? = null,
         val postedBy:String? = null,
         val suggestedKeywords:String? = null,
-        val participation:String? = null,
-        val conferencePreference: ConferencePreference? = null
-
+        val participation:String? = null
 ) {
     @Suppress("unused")
     private constructor():this(id=null)
@@ -98,8 +79,7 @@ class Talk(
             speakers = Speaker.readFromJson(talkObject.arrayValue("speakers").orElse(null)),
             postedBy = talkObject.stringValue("postedBy").orElse(null),
             suggestedKeywords = readDataValue(talkObject,"suggestedKeywords"),
-            participation = readDataValue(talkObject,"participation"),
-            conferencePreference =  ConferencePreference.fromTagSet(readTagsFromTalkObj(talkObject).map { it.stringValue("tag").orElse(null) }.filterNotNull().toSet())
+            participation = readDataValue(talkObject,"participation")
     )
 
 
@@ -117,12 +97,6 @@ class Talk(
         infoToProgramCommittee?.let {jsonObject.put("infoToProgramCommittee",addToData(it,true))}
         suggestedKeywords?.let {jsonObject.put("suggestedKeywords",addToData(it,true))}
         participation?.let {jsonObject.put("participation",addToData(it,true))}
-        if (conferencePreference != null) {
-            val currentTqgs = readTagsFromTalkObj(currentSleepingPillObject)
-            val newTags = currentTqgs.filter { it.stringValue("tag").isPresent && !ConferencePreference.BOTHIRLVR.tags.contains(it.stringValue("tag").get()) }.toMutableList()
-            conferencePreference.tags.forEach{newTags.add(JsonObject().put("tag",it).put("author","Submitit"))}
-            jsonObject.put("tagswithauthor", JsonFactory.jsonObject().put("value", JsonArray.fromNodeList(newTags)).put("privateData", true))
-        }
         return jsonObject
     }
 
