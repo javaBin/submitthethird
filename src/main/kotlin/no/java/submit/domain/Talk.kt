@@ -143,7 +143,7 @@ class Speaker(
 
         val dataObject = JsonFactory.jsonObject()
         twitter?.let { dataObject.put("twitter",addToData(it,false))}
-        bio?.let { dataObject.put("bio",addToData(it,true))}
+        bio?.let { dataObject.put("bio",addToData(it,false))}
         zipCode?.let { dataObject.put("zip-code",addToData(it,true))}
 
         if (!dataObject.isEmpty) {
