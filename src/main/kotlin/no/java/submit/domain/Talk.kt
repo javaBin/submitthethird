@@ -112,7 +112,8 @@ class Speaker(
         val email:String? = null,
         val twitter:String? = null,
         val bio:String? = null,
-        val zipCode:String? = null
+        val zipCode:String? = null,
+        val residence:String? = null
 ) {
     companion object {
         fun readFromJson(speakerArray:JsonArray?):List<Speaker>? {
@@ -125,7 +126,8 @@ class Speaker(
                     email = it.stringValue("email").orElse(null),
                     twitter = readDataValue(it,"twitter"),
                     bio = readDataValue(it,"bio"),
-                    zipCode = readDataValue(it,"zip-code")
+                    zipCode = readDataValue(it,"zip-code"),
+                    residence = readDataValue(it,"residence")
 
 
             ) }.collect(Collectors.toList())
@@ -145,6 +147,8 @@ class Speaker(
         twitter?.let { dataObject.put("twitter",addToData(it,false))}
         bio?.let { dataObject.put("bio",addToData(it,false))}
         zipCode?.let { dataObject.put("zip-code",addToData(it,true))}
+        residence?.let { dataObject.put("residence",addToData(it,true))}
+
 
         if (!dataObject.isEmpty) {
             jsonObject.put("data",dataObject)

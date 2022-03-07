@@ -111,6 +111,7 @@ window.EditTalkHandler = {
         $speakerDom.find(".speakertwitter").val(speaker.twitter);
         $speakerDom.find(".speakerbio").val(speaker.bio);
         $speakerDom.find(".speakerpostcode").val(speaker.zipCode);
+        $speakerDom.find(".speakerresidence").val(speaker.residence);
 
         if (!canDelete) {
             $speakerDom.find(".removeSpeakerSection").hide();
@@ -139,7 +140,8 @@ window.EditTalkHandler = {
               email: speakerDom.find(".speakeremail").val(),
               bio: speakerDom.find(".speakerbio").val(),
               twitter: speakerDom.find(".speakertwitter").val(),
-              zipCode: speakerDom.find(".speakerpostcode").val()
+              zipCode: speakerDom.find(".speakerpostcode").val(),
+              residence: speakerDom.find(".speakerresidence").val(),
           };
           speakers.push(speakerobj);
         });
