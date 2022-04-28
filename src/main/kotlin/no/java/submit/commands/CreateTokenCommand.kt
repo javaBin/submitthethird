@@ -15,6 +15,7 @@ fun isValidEmail(subject: String): Boolean {
     } else subject.chars().noneMatch{ Character.isWhitespace(it) }
 }
 
+fun generateTokenFromEmail(email:String):String = CryptoUtils.encrypt("$email,${System.currentTimeMillis()}")
 
 class CreateTokenCommand(val email:String?):Command {
     @Suppress("unused")
@@ -24,7 +25,7 @@ class CreateTokenCommand(val email:String?):Command {
         if (email == null || !isValidEmail(email)) {
             throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Not valid email")
         }
-        val token = CryptoUtils.encrypt("$email,${System.currentTimeMillis()}")
+        val token = generateTokenFromEmail(email)
         sendMail(email,token)
         return JsonFactory.jsonObject()
     }
