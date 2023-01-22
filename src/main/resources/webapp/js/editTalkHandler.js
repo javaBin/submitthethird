@@ -32,7 +32,14 @@ window.EditTalkHandler = {
             self.speakerTemplate = self.$el.find("#speakertemplate").html();
             self.$el.find("#submitTalk").click(self.submitTalk);
             self.$el.find('input[name="format"]').change(function () {
-                self.updateLengthOptions(self.$el.find("input[name='format']:checked").val());
+                const  talktype = self.$el.find("input[name='format']:checked").val();
+                self.updateLengthOptions(talktype);
+                if (talktype === "WORKSHOP") {
+                    self.$el.find("#workshopExtraInfo").show();
+                } else {
+                    self.$el.find("#workshopExtraInfo").hide();
+                }
+
             });
             self.talkId = window.CommonHandler.getUrlParameter("id");
             if (self.talkId) {
@@ -59,6 +66,13 @@ window.EditTalkHandler = {
         self.$el.find("#" + self.formatValues[talk.format].radioid).prop("checked",true);
         self.updateLengthOptions(talk.format);
 
+        if (talk.format === "WORKSHOP") {
+            self.$el.find("#workshopExtraInfo").show();
+        } else {
+            self.$el.find("#workshopExtraInfo").hide();
+        }
+
+
         self.$el.find("input[name=language][value=" + talk.language + "]").prop("checked",true);
 
         self.$el.find("#title").val(talk.title);
@@ -70,6 +84,7 @@ window.EditTalkHandler = {
         self.$el.find("#infoToProgramCommittee").val(talk.infoToProgramCommittee);
         self.$el.find("#suggestedKeywords").val(talk.suggestedKeywords);
         self.$el.find("#participation").val(talk.participation);
+        self.$el.find("#workshopPrerequisites").val(talk.workshopPrerequisites);
 
         self.$el.find("#addSpeaker").click(self.addSpeaker);
 
@@ -145,6 +160,8 @@ window.EditTalkHandler = {
           };
           speakers.push(speakerobj);
         });
+        const  talktype = self.$el.find("input[name='format']:checked").val();
+
         var talkToSubmit = {
             id: self.talkId,
             title: self.$el.find("#title").val(),
@@ -154,6 +171,7 @@ window.EditTalkHandler = {
             equipment:self.$el.find("#equipment").val(),
             abstract: self.$el.find("#abstract").val(),
             outline: self.$el.find("#outline").val(),
+            workshopPrerequisites: (talktype === "WORKSHOP") ? self.$el.find("#workshopPrerequisites").val() : null,
             infoToProgramCommittee: self.$el.find("#infoToProgramCommittee").val(),
             length: self.$el.find("#length").val(),
             suggestedKeywords: self.$el.find("#suggestedKeywords").val(),

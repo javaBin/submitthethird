@@ -45,21 +45,22 @@ fun readTagsFromTalkObj(talkObject: JsonObject?):List<JsonObject> {
 
 
 class Talk(
-        val id:String? = null,
-        val title:String? = null,
-        val language:Language? = null,
-        val intendedAudience:String? = null,
-        val length:String? = null,
-        val format:TalkFormat? = null,
-        val equipment:String? = null,
-        val abstract:String? = null,
-        val outline:String? = null,
-        val infoToProgramCommittee:String? = null,
-        val speakers:List<Speaker>? = null,
-        val conferenceId: String? = null,
-        val postedBy:String? = null,
-        val suggestedKeywords:String? = null,
-        val participation:String? = null
+    val id:String? = null,
+    val title:String? = null,
+    val language:Language? = null,
+    val intendedAudience:String? = null,
+    val length:String? = null,
+    val format:TalkFormat? = null,
+    val equipment:String? = null,
+    val abstract:String? = null,
+    val outline:String? = null,
+    val workshopPrerequisites:String? = null,
+    val infoToProgramCommittee:String? = null,
+    val speakers:List<Speaker>? = null,
+    val conferenceId: String? = null,
+    val postedBy:String? = null,
+    val suggestedKeywords:String? = null,
+    val participation:String? = null
 ) {
     @Suppress("unused")
     private constructor():this(id=null)
@@ -75,6 +76,7 @@ class Talk(
             equipment= readDataValue(talkObject,"equipment"),
             abstract= readDataValue(talkObject,"abstract"),
             outline = readDataValue(talkObject,"outline"),
+            workshopPrerequisites = readDataValue(talkObject,"workshopPrerequisites"),
             infoToProgramCommittee = readDataValue(talkObject,"infoToProgramCommittee"),
             speakers = Speaker.readFromJson(talkObject.arrayValue("speakers").orElse(null)),
             postedBy = talkObject.stringValue("postedBy").orElse(null),
@@ -94,6 +96,7 @@ class Talk(
         equipment?.let {jsonObject.put("equipment",addToData(it,true))}
         abstract?.let {jsonObject.put("abstract",addToData(it,false))}
         outline?.let {jsonObject.put("outline",addToData(it,true))}
+        workshopPrerequisites?.let {jsonObject.put("workshopPrerequisites",addToData(it,false))}
         infoToProgramCommittee?.let {jsonObject.put("infoToProgramCommittee",addToData(it,true))}
         suggestedKeywords?.let {jsonObject.put("suggestedKeywords",addToData(it,true))}
         participation?.let {jsonObject.put("participation",addToData(it,true))}

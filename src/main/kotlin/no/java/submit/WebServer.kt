@@ -25,6 +25,7 @@ fun main(args: Array<String>) {
         }
 
     }
+    println("SPLOC ${Setup.sleepingPillLocation()}")
     val server = Server(Setup.serverPort())
 
     //setuphttps(server);
