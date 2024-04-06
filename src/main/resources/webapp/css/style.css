@@ -253,3 +253,15 @@ input[type=checkbox]:checked:disabled + label:before {
     cursor: not-allowed;
   }
 }
+
+.errormessagetext {
+    color: red;
+    font-size: 1.7rem;
+    border: 2px solid red;
+    padding: 5px;
+    display: none;
+}
+
+.speakername:disabled {
+    border: none;
+}

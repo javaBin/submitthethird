@@ -1,7 +1,7 @@
 package no.java.submit.commands
 
 import no.java.submit.*
-import no.java.submit.domain.Talk
+import no.java.submit.domain.*
 import no.java.submit.queries.oneTalkFromSleepingpill
 import org.jsonbuddy.JsonArray
 import org.jsonbuddy.JsonObject
@@ -20,7 +20,7 @@ class UpdateTalkCommand(val talk:Talk?):Command {
         if (talk?.id == null) {
             throw RequestError(HttpServletResponse.SC_BAD_REQUEST,"Need a talk with id")
         }
-        val (currentTalk,sleepingPillObject) = oneTalkFromSleepingpill(talk.id,callIdentification.callerEmail)
+        val (currentTalk:Talk,sleepingPillObject:JsonObject) = oneTalkFromSleepingpill(talk.id,callIdentification.callerEmail)
         if (currentTalk.conferenceId != Setup.sleepingpillConferenceId()) {
             throw FunctionalError("You cannot edit a talk from a previous year");
         }
@@ -37,6 +37,18 @@ class UpdateTalkCommand(val talk:Talk?):Command {
         val spdataObject = talk.spDataObject(sleepingPillObject)
         if (!spdataObject.isEmpty) {
             updateTalkPayload.put("data",spdataObject)
+        }
+        if (SubmissionsClosedService.isClosed()) {
+            if (talk.speakers?.size != currentTalk.speakers?.size) {
+                throw FunctionalError("You cannot change the number of speakers after the submission deadline")
+            }
+            if (currentTalk.speakers != null) {
+                for (currentSpeaker:Speaker in currentTalk.speakers) {
+                    if (talk.speakers?.none { it.name == currentSpeaker.name } == true) {
+                        throw FunctionalError("You cannot change a speaker after the submission deadline")
+                    }
+                }
+            }
         }
         talk.speakers?.let {updateTalkPayload.put("speakers", JsonArray.fromNodeList(it.map { it.spSpeakerObject() }))}
         return SleepingPillService.post("/data/session/${URLEncoder.encode(talk.id,"UTF-8")}",HttpPostMethod.PUT,updateTalkPayload)

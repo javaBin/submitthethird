@@ -17,6 +17,7 @@ window.ConferenceConfirmHandler = {
             success: function (fromServer) {
                 self.$el.find("#waitcontent").hide();
                 if (fromServer.status === "error") {
+                    self.$el.find("#errormessage").show();
                     self.$el.find("#errormessage").append(fromServer.errormessage);
                     self.$el.find("#errorcontent").show();
                     return;

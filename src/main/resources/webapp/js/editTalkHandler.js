@@ -95,6 +95,13 @@ window.EditTalkHandler = {
             self.appendSpeaker(speaker,canDelete);
         });
 
+        if (talk.isClosed) {
+            self.$el.find(".speakername").prop("disabled", true);
+            self.$el.find(".removeSpeakerSection").hide();
+            self.$el.find("#addSpeakerSection").hide();
+        }
+
+
     },
     addSpeaker:function() {
         var self = window.EditTalkHandler;
@@ -199,6 +206,7 @@ window.EditTalkHandler = {
             method:"POST",
             success: function (fromServer) {
                 if (fromServer.status === "error") {
+                    $errormessage.show();
                     $errormessage.append(fromServer.errormessage);
                     return;
                 }

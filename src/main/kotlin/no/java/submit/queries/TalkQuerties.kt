@@ -42,7 +42,9 @@ fun oneGivenTalk(callIdentification: CallIdentification):JsonObject {
     val talkid = callIdentification.pathInfo!!.substring("/talk/".length)
     val talk:Talk = oneTalkFromSleepingpill(talkid, callIdentification.callerEmail).first
 
-    return JsonGenerator.generate(talk) as JsonObject
+    val jsonObject:JsonObject = JsonGenerator.generate(talk) as JsonObject
+
+    return jsonObject.put("isClosed",SubmissionsClosedService.isClosed())
 
 }
 
