@@ -43,6 +43,20 @@ fun readTagsFromTalkObj(talkObject: JsonObject?):List<JsonObject> {
     //return tagobjects.map { it.stringValue("tag").orElse(null) }.filterNotNull().toSet()
 }
 
+private fun readFeedbackStatus(talkObject: JsonObject):FeedackStatus? {
+    val tags:List<String> = talkObject.objectValue("data").orElse(null)?.objectValue("tags")?.orElse(null)?.arrayValue("value")?.orElse(null)?.strings()?: emptyList()
+    return when {
+        tags.contains("accepted") -> FeedackStatus.ACCEPTED
+        tags.contains("rejected") -> FeedackStatus.REJECTED
+        else -> null
+    }
+
+}
+
+enum class FeedackStatus {
+    ACCEPTED,REJECTED
+}
+
 
 class Talk(
     val id:String? = null,
@@ -60,7 +74,9 @@ class Talk(
     val conferenceId: String? = null,
     val postedBy:String? = null,
     val suggestedKeywords:String? = null,
-    val participation:String? = null
+    val participation:String? = null,
+    val feedackStatus: FeedackStatus? = null,
+
 ) {
     @Suppress("unused")
     private constructor():this(id=null)
@@ -81,7 +97,8 @@ class Talk(
             speakers = Speaker.readFromJson(talkObject.arrayValue("speakers").orElse(null)),
             postedBy = talkObject.stringValue("postedBy").orElse(null),
             suggestedKeywords = readDataValue(talkObject,"suggestedKeywords"),
-            participation = readDataValue(talkObject,"participation")
+            participation = readDataValue(talkObject,"participation"),
+            feedackStatus = readFeedbackStatus(talkObject),
     )
 
 

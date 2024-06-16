@@ -55,6 +55,9 @@ window.ShowTalksHandler = {
                 var $talk = $(self.talkTemplate);
                 $talk.find(".talkLink").attr("href","/talkEdit.html?id=" + atalk.id);
                 $talk.find(".talkName").append(atalk.title);
+                if (atalk.feedackStatus === "ACCEPTED") {
+                    $talk.find(".acceptedBadge").show();
+                }
                 $talksForConference.append($talk);
             });
             $talkList.append($conference);
